@@ -24,28 +24,38 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T>
 
 **DynamicProvider** has important methods and can be used as follow:
  
- **Load Record**
+**First, lets explain the constructor of this class:**
+ 
  ```java
- public T loadRecord(Long rid, RecordModel model, Class boundClass)
+public DynamicProviderImpl(RecordCredential credential)
+ ```
+This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
+ 
+ **Load Record**
+```java
+public T loadRecord(Long rid, RecordModel model, Class boundClass)
 ```
 This method loads a record according to rid *(RecordID)* in model *(RecordModel)* the third parameter is the bound class that will contain the data of this record.  The generic type *'T'* must be the type related to boundClass parameter.
 
 **For example, a call of this method would be:**
  ```java
- DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
- ModelField instance = provider.loadRecord(2l, model, ModelField.class);
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+ 
+ModelField instance = provider.loadRecord(2l, model, ModelField.class);
 ```
 
 **Update Record**
  ```java
- public void updateRecord(RecordModel model, T instance)
+public void updateRecord(RecordModel model, T instance)
 ```
 This method updates the record (instance) that implements BoundInstance interface and must be the same type from provider's generic type..
 
 **For example, a call of this method would be:**
  ```java
- DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
- ModelField instance = ....
- instance.setEmail("email@dynamicloud.org");
- provider.updateRecord(model, instance);
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+ 
+ModelField instance = provider.loadRecord(2l, model, ModelField.class);
+instance.setEmail("email@dynamicloud.org");
+ 
+provider.updateRecord(model, instance);
 ```
