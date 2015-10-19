@@ -31,7 +31,7 @@ public DynamicProviderImpl(RecordCredential credential)
  ```
 This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
  
- ####Methods
+ ###Methods
  
  **Load Record**
 ```java
