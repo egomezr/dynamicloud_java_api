@@ -1,2 +1,36 @@
 # dynamicloud_java_api
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
+
+# Getting started
+
+This API contents components to execute operations over [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
+
+- DynamicProvider
+- RecordQuery
+- RecordCredential
+- RecordModel
+- RecordResults
+- @Bind
+- BoundInstance
+- Condition
+- Conditions
+
+These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
+
+###DynamicProvider
+```java
+public class DynamicProviderImpl<T> implements DynamicProvider<T>
+```
+
+**DynamicProvider** has important methods and can be used as follow:
+ 
+ ```java
+ public T loadRecord(Long rid, RecordModel model, Class boundClass)
+```
+This method loads a record according to rid *(RecordID)* in model *(RecordModel)* the third parameter is the bound class that will contain the data of this record.  The generic type *'T'* must be the type related to boundClass parameter.
+
+*For example, a call of this method looks as follow:*
+ ```java
+ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+ ModelField instance = provider.loadRecord(2l, model, ModelField.class);
+```
