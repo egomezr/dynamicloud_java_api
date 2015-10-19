@@ -3,7 +3,7 @@ This Java API  helps you to use the power of Dynamicloud.  This API follows our 
 
 # Getting started
 
-This API contents components to execute operations over [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
+This API has components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
 
 - DynamicProvider
 - RecordCredential
@@ -26,7 +26,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T>
  
 **First, let's explain the constructor of this class:**
  
- ```java
+ ```javao
 public DynamicProviderImpl(RecordCredential credential)
  ```
 This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
