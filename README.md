@@ -151,9 +151,9 @@ Query query = provider.createQuery(model);
 This class provides a set of methods to add conditions, order by and group by clauses, projections, etc.
 
 ```java
-public RecordQuery add(Condition condition);
-public RecordQuery asc();
-public RecordQuery desc();
+public Query add(Condition condition);
+public Query asc();
+public Query desc();
 public Query setCount(int count);
 public Query setOffset(int offset);
 public Query setProjection(String projection);
