@@ -7,10 +7,10 @@ This API has components to execute operations on [Dynamicloud](http://www.dynami
 
 - RecordModel
 - RecordCredential
+- BoundInstance
 - @Bind
 - DynamicProvider
 - RecordResults
-- BoundInstance
 - Condition
 - Conditions
 - RecordQuery
@@ -29,6 +29,17 @@ RecordModel recordModel = new RecordModel(modelId);
 This class encapsulates the API keys to gain access on Dynamicloud servers.
 ```java
 RecordCredential recordCredential = new RecordCredential(CSK, ACI);
+```
+
+###BoundInstance
+This interface declares the required methods for a bound instance
+```java
+public interface BoundInstance
+```
+
+A bound instance must implement BoundInstance interface to be eligible to use in DynamicProvider methods.
+```java
+public class ModelFields implements BoundInstance
 ```
 
 ###Annotation @Bind
