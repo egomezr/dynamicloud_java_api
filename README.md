@@ -10,7 +10,12 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - BoundInstance
 - @Bind
 - DynamicProvider
+  - Update using selection
+  - Delete using selection
 - Query
+  - Order by
+  - Group by and Projection
+  - Next, Offset and Count methods
 - Condition
 - Conditions
 - RecordResults
@@ -295,8 +300,54 @@ for (ModelField item : results.getRecords()) {
 //This call will fetch max 10 records and will start from twenty first record.
 results = query.next();
 
-//Loop with the next 10 records
+//Loop through the next 10 records
 for (ModelField item : results.getRecords()) {
   String email = item.getEmail():
 }
+```
+
+#Order by
+
+To fetch records ordered by a specific field, the query object provides the method **orderBy**.  To sort the records in a descending/ascending order you must call asc/desc method after call orderBy method.
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+//Every call will fetch max 10 records and will start from eleventh record.
+query.setCount(10).setOffset(1).orderBy("email").asc(); // Here you can call desc() method
+
+RecordResults results = query.list();
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail():
+}
+
+```
+
+#Group by
+
+To group by a specifics fields, the query object provides the method **groupBy**.  To use this clause, you must set the projection to the query using **setProjection** method.
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+//Every call will fetch max 10 records and will start from eleventh record.
+query.setCount(10).setOffset(1).orderBy("email").asc(); // Here you can call desc() method
+
+// These are the fields in your projection
+query.groupBy("name, email");
+query.setProjection(new String[]{"name", "email"});
+
+RecordResults results = query.list();
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail():
+}
+
 ```
