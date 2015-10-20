@@ -189,7 +189,7 @@ Every call of add method in object Query will put the Condition in a ordered lis
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
-Query query = provider.createQuery(model);
+Query<ModelField> query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 ```
@@ -197,3 +197,12 @@ query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 These two calls of add method will produce something like this:
 
 name like 'Eleazar%' **AND** age = 33
+
+Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
+
+#RecordResults
+
+**This class has three methods:**
+- getTotalRecords: The total records in RecordModel
+- getFastReturnedSize: The returned size of records that have matched with Query conditions
+- getRecords: A list of records, the objects in this list will be **BoundInstances** according Query's generic type.
