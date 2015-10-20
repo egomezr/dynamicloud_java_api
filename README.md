@@ -145,7 +145,7 @@ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recor
 Query query = provider.createQuery(model);
 ```
 
-With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.
+With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.  The query object is mutable and every call of its methods will return the same instance.
 
 #Conditions class
 
@@ -172,3 +172,28 @@ public static Condition lesserEquals(String left, Object right);
 
 ```
 
+To add conditions to a Query object it must call the add method **(query.add(condition))**
+
+**For example:**
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+ 
+Query query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%"));
+
+```
+
+Every call of add method in object Query will put the Condition in a ordered list of conditions, that list will be joint as a AND condition.  So, if you add two conditions as follow:
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+ 
+Query query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+```
+
+These two calls of add method will produce something like this:
+
+**name like 'Eleazar%' AND age = 33**
