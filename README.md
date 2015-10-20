@@ -3,7 +3,7 @@ This Java API  helps you to use the power of Dynamicloud.  This API follows our 
 
 # Getting started
 
-This API has components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
+This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
 
 - RecordModel
 - RecordCredential
@@ -57,7 +57,7 @@ public class ModelFields implements BoundInstance {
 ```
 
 #DynamicProvider
-**DynamicProvider** has important methods and can be used as follow:
+**DynamicProvider** provides important methods and can be used as follow:
 ```java
 public class DynamicProviderImpl<T> implements DynamicProvider<T>
 ```
@@ -149,7 +149,7 @@ With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER TH
 
 #Conditions class
 
-This class has a set of methods to build conditions and add them in query object
+This class provides a set of methods to build conditions and add them in query object
 ```java
 public static Condition and(Condition left, Condition right);
 public static Condition or(Condition left, Condition right);
@@ -202,7 +202,7 @@ Query class provides a method called **list()**, this method will execute a requ
 
 #RecordResults
 
-**This class has three methods:**
+**This class provides three methods:**
 - getTotalRecords: The total records in RecordModel
 - getFastReturnedSize: The returned size of records that have matched with Query conditions
 - getRecords: A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
