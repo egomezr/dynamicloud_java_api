@@ -276,7 +276,7 @@ for (ModelField item : results.getRecords()) {
 //This call will fetch max 10 records and will start from twenty first record.
 results = query.next();
 
-//Loop with the next 15 records
+//Loop with the next 10 records
 for (ModelField item : results.getRecords()) {
   String email = item.getEmail():
 }
