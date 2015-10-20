@@ -146,6 +146,25 @@ Query query = provider.createQuery(model);
 
 ```
 
+#Query class
+
+This class provides a set of methods to add conditions, order by and group by clauses, projections, etc.
+
+```java
+public RecordQuery add(Condition condition);
+public RecordQuery asc();
+public RecordQuery desc();
+public Query setCount(int count);
+public Query setOffset(int offset);
+public Query setProjection(String projection);
+public Query setProjection(String[] projection);
+public Query orderBy(String attribute);
+public Query groupBy(String[] attributes);
+public RecordResults<T> list() throws DynamicloudProviderException;
+public RecordResults<T> next() throws DynamicloudProviderException;
+
+```
+
 With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.  The query object is mutable and every call of its methods will return the same instance.
 
 #Conditions class
