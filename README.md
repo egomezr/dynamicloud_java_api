@@ -113,7 +113,7 @@ This method updates the record (instance) that implements BoundInstance interfac
  ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
-ModelField instance = provider.loadRecord(2l, model, ModelField.class);
+ModelField instance = provider.loadRecord(2L, model, ModelField.class);
 instance.setEmail("email@dynamicloud.org");
  
 provider.updateRecord(model, instance);
@@ -129,5 +129,5 @@ This method deletes a record from theModel
  ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
-provider.deleteRecord(model, 2l);
+provider.deleteRecord(model, 2L);
 ```
