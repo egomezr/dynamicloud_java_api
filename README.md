@@ -7,9 +7,9 @@ This API has components to execute operations on [Dynamicloud](http://www.dynami
 
 - RecordModel
 - RecordCredential
+- @Bind
 - DynamicProvider
 - RecordResults
-- @Bind
 - BoundInstance
 - Condition
 - Conditions
@@ -31,6 +31,16 @@ This class encapsulates the API keys to gain access on Dynamicloud servers.
 RecordCredential recordCredential = new RecordCredential(CSK, ACI);
 ```
 
+###Annotation @Bind
+This is an annotation to Bind local attributes and fields in Dynamicloud.
+Every set method must be annotated as a Bind method:
+```java
+@Bind(field = "email")
+public void setEmail(String email) {
+  this.email = email;
+}
+```
+
 ###DynamicProvider
 **DynamicProvider** has important methods and can be used as follow:
 ```java
@@ -38,7 +48,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T>
 ```
  
 **First, let's explain the constructor of this class:**
- ```javao
+ ```java
 public DynamicProviderImpl(RecordCredential credential)
  ```
 This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
@@ -53,9 +63,29 @@ This method loads a record according to rid *(RecordID)* in model *(RecordModel)
 
 **For example, a call of this method would be:**
  ```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
 ModelField instance = provider.loadRecord(2l, model, ModelField.class);
+```
+
+**Save Record**
+ ```java
+public void saveRecord(RecordModel model, T instance)
+```
+This method saves a record (instance) that implements BoundInstance interface and must be the same type from provider's generic type..
+
+**For example, a call of this method would be:**
+ ```java
+
+ModelFields instance = new ModelFields();
+instance.setEmail("email@dynamicloud.org");
+instance.setName("Eleazar");
+instance.setLastName("Gómez");
+instance.setBirthdate("1982-05-21");
+
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+
+provider.saveRecord(model, instance);
 ```
 
 **Update Record**
@@ -66,7 +96,7 @@ This method updates the record (instance) that implements BoundInstance interfac
 
 **For example, a call of this method would be:**
  ```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
 ModelField instance = provider.loadRecord(2l, model, ModelField.class);
 instance.setEmail("email@dynamicloud.org");
@@ -82,7 +112,7 @@ This method deletes a record from theModel
 
 **For example, a call of this method would be:**
  ```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(...);
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
 provider.deleteRecord(model, 2l);
 ```
