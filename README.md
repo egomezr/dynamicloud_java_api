@@ -179,14 +179,7 @@ To add conditions to a Query object it must call the add method **(query.add(con
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
-/*
- This setBoundClass indicates what kind of object will be used at moment 
- of records building.  If this set it's never called getRecords method will 
- return a generic list of objects.
-*/
 
-recordModel.setBoundClass(ModelField.class); 
- 
 Query query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%"));
 
@@ -219,15 +212,17 @@ Query class provides a method called **list()**, this method will execute a requ
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
- 
+/*
+ This setBoundClass indicates what kind of object will be used at moment 
+ of records building.  If this set it's never called getRecords method will 
+ return a generic list of objects.
+*/
+recordModel.setBoundClass(ModelField.class);
+
 Query<ModelField> query = provider.createQuery(model);
-
-recordModel.setBoundClass(ModelField.class); 
-
 query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 RecordResults results = query.list();
-
 for (ModelField item : results.getRecords()) {
   String email = item.getEmail():
 }
