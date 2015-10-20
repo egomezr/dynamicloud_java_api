@@ -46,9 +46,13 @@ public class ModelFields implements BoundInstance
 This is an annotation to Bind local attributes and fields in Dynamicloud.
 Every set method must be annotated as a Bind method:
 ```java
-@Bind(field = "email")
-public void setEmail(String email) {
-  this.email = email;
+public class ModelFields implements BoundInstance
+  private String email;
+  
+  @Bind(field = "email")
+  public void setEmail(String email) {
+    this.email = email;
+  }
 }
 ```
 
