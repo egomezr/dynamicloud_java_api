@@ -10,7 +10,7 @@ This API has components to execute operations on [Dynamicloud](http://www.dynami
 - BoundInstance
 - @Bind
 - DynamicProvider
-- RecordQuery
+- Query
 - Condition
 - Conditions
 - RecordResults
