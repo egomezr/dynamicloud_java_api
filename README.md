@@ -196,4 +196,4 @@ query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 These two calls of add method will produce something like this:
 
-**name like 'Eleazar%' AND age = 33**
+name like 'Eleazar%' **AND** age = 33
