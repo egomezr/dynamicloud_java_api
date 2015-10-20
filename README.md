@@ -147,7 +147,7 @@ Query query = provider.createQuery(model);
 
 With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.
 
-**Conditions class**
+#Conditions class
 
 This class has a set of methods to build conditions and add them in query object
 ```java
