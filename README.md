@@ -249,7 +249,7 @@ for (ModelField item : results.getRecords()) {
 
 #Next, Offset and Count methods
 
-Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load tha whole set of records, you need to find a way to load a sub-set by demand.
+Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load the whole set of records, you need to find a way to load a sub-set by demand.
 
 The method to meet this goal is **next**.  Basically, the next method will increase the offset automatically and will execute the request with the previous conditions. By default, offset and count will have 0 and 15 respectively.
 
