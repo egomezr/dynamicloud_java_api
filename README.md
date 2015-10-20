@@ -39,14 +39,14 @@ public interface BoundInstance
 
 A bound instance must implement BoundInstance interface to be eligible to use in DynamicProvider methods.
 ```java
-public class ModelFields implements BoundInstance
+public class ModelField implements BoundInstance
 ```
 
 #Annotation @Bind
 This is an annotation to Bind local attributes and fields in Dynamicloud.
 Every set method must be annotated as a Bind method:
 ```java
-public class ModelFields implements BoundInstance {
+public class ModelField implements BoundInstance {
   private String email;
   
   @Bind(field = "email")
@@ -92,7 +92,7 @@ This method saves a record (instance) that implements BoundInstance interface an
 **For example, a call of this method would be:**
  ```java
 
-ModelFields instance = new ModelFields();
+ModelField instance = new ModelField();
 instance.setEmail("email@dynamicloud.org");
 instance.setName("Eleazar");
 instance.setLastName("Gómez");
@@ -185,7 +185,7 @@ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recor
  return a generic list of objects.
 */
 
-recordModel.setBoundClass(ModelFields.class); 
+recordModel.setBoundClass(ModelField.class); 
  
 Query query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%"));
@@ -222,13 +222,13 @@ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recor
  
 Query<ModelField> query = provider.createQuery(model);
 
-recordModel.setBoundClass(ModelFields.class); 
+recordModel.setBoundClass(ModelField.class); 
 
 query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 RecordResults results = query.list();
 
-for (ModelFields item : results.getRecords()) {
+for (ModelField item : results.getRecords()) {
   String email = item.getEmail():
 }
 ```
