@@ -10,10 +10,10 @@ This API has components to execute operations on [Dynamicloud](http://www.dynami
 - BoundInstance
 - @Bind
 - DynamicProvider
-- RecordResults
+- RecordQuery
 - Condition
 - Conditions
-- RecordQuery
+- RecordResults
 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
@@ -131,3 +131,43 @@ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recor
  
 provider.deleteRecord(model, 2L);
 ```
+
+**Create query**
+ ```java
+public Query createQuery(RecordModel recordModel)
+```
+This method returns a Query to get records according specific conditions.
+
+**For example, a call of this method would be:**
+ ```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+ 
+Query query = provider.createQuery(model);
+```
+
+With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.
+
+**Conditions class**
+This class has a set of methods to build conditions and add them in query object
+```java
+public static Condition and(Condition left, Condition right);
+public static Condition or(Condition left, Condition right);
+public static Condition in(String left, String[] values);
+public static Condition in(String left, Number[] values);
+public static Condition in(String left, Character[] values);
+public static Condition notIn(String left, String[] values);
+public static Condition notIn(String left, Number[] values);
+public static Condition notIn(String left, Character[] values);
+public static Condition like(String left, String like);
+public static Condition notLike(String left, String like);
+public static Condition equals(String left, String right);
+public static Condition equals(String left, Number right);
+public static Condition equals(String left, Character right);
+public static Condition notEquals(String left, Object right);
+public static Condition greaterEquals(String left, Object right);
+public static Condition greaterThan(String left, Object right);
+public static Condition lesserThan(String left, Object right);
+public static Condition lesserEquals(String left, Object right);
+
+```
+
