@@ -143,6 +143,7 @@ This method returns a Query to get records according specific conditions.
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
  
 Query query = provider.createQuery(model);
+
 ```
 
 With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.  The query object is mutable and every call of its methods will return the same instance.
@@ -178,6 +179,13 @@ To add conditions to a Query object it must call the add method **(query.add(con
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+/*
+ This setBoundClass indicates what kind of object will be used at moment 
+ of records building.  If this set it's never called getRecords method will 
+ return a generic list of objects.
+*/
+
+recordModel.setBoundClass(ModelFields.class); 
  
 Query query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%"));
@@ -206,3 +214,21 @@ Query class provides a method called **list()**, this method will execute a requ
 - getTotalRecords: The total records in RecordModel
 - getFastReturnedSize: The returned size of records that have matched with Query conditions
 - getRecords: A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
+
+**The uses of this class would be as a follow:**
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+ 
+Query<ModelField> query = provider.createQuery(model);
+
+recordModel.setBoundClass(ModelFields.class); 
+
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+RecordResults results = query.list();
+
+for (ModelFields item : results.getRecords()) {
+  String email = item.getEmail():
+}
+```
