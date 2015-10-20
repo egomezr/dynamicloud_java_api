@@ -204,9 +204,9 @@ Query class provides a method called **list()**, this method will execute a requ
 #RecordResults
 
 **This class provides three methods:**
-- getTotalRecords: The total records in RecordModel
-- getFastReturnedSize: The returned size of records that have matched with Query conditions
-- getRecords: A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
+- *getTotalRecords:* The total records in RecordModel
+- *getFastReturnedSize:* The returned size of records that have matched with Query conditions
+- *getRecords:* A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
 
 **The uses of this class would be as a follow:**
 
