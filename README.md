@@ -17,7 +17,7 @@ This API has components to execute operations on [Dynamicloud](http://www.dynami
 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
-###RecordModel
+#RecordModel
 This class represents a model in Dynamicloud.  Every method in this API needs a model to identify a specific set of records and execute operations on them.
 
 To instantiate a model you have to pass an ID from your models in Dynamicloud
@@ -25,13 +25,13 @@ To instantiate a model you have to pass an ID from your models in Dynamicloud
 RecordModel recordModel = new RecordModel(modelId);
 ```
 
-###RecordCredential
+#RecordCredential
 This class encapsulates the API keys to gain access on Dynamicloud servers.
 ```java
 RecordCredential recordCredential = new RecordCredential(CSK, ACI);
 ```
 
-###BoundInstance
+#BoundInstance
 This interface declares the required methods for a bound instance
 ```java
 public interface BoundInstance
@@ -42,7 +42,7 @@ A bound instance must implement BoundInstance interface to be eligible to use in
 public class ModelFields implements BoundInstance
 ```
 
-###Annotation @Bind
+#Annotation @Bind
 This is an annotation to Bind local attributes and fields in Dynamicloud.
 Every set method must be annotated as a Bind method:
 ```java
@@ -56,7 +56,7 @@ public class ModelFields implements BoundInstance
 }
 ```
 
-###DynamicProvider
+#DynamicProvider
 **DynamicProvider** has important methods and can be used as follow:
 ```java
 public class DynamicProviderImpl<T> implements DynamicProvider<T>
@@ -68,7 +68,7 @@ public DynamicProviderImpl(RecordCredential credential)
  ```
 This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
  
-###Methods
+#Methods
  
  **Load Record**
 ```java
