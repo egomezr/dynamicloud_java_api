@@ -391,7 +391,7 @@ DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recor
 ModelField instance = new ModelField();
 instance.setName("Eleazar");
 
-provider.setBoundInstance(instance;
+provider.setBoundInstance(instance);
 
 Query<ModelField> query = provider.createQuery(model);
 query.add(Conditions.greaterThan("age", 24));
@@ -401,4 +401,22 @@ query.add(Conditions.greaterThan("age", 24));
  and the query object to update only the records that match with the selection.
 */
 provider.update(query);
+```
+
+#Delete using selection
+
+There are situations where you need to delete records using a specific selection.
+
+In this example we are going to delete the records where age > 24
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.greaterThan("age", 24));
+
+/*
+ This method will delete the records that match with the selection.
+*/
+provider.delete(query);
 ```
