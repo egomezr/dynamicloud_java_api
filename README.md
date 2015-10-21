@@ -18,13 +18,13 @@ To read the java documentation, click [here](http://www.dynamicloud.org/ "Dynami
 
 This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components and methods are the followings:
 
-1 [RecordModel](#recordmodel)
-- [RecordCredential](#recordcredential)
-- [BoundInstance](#boundinstance)
-- [@Bind](#annotation-bind)
-- [DynamicProvider](#dynamicprovider)
-  - [DynamicProvider's methods](#methods)
-- [Query](#query-class)
+1. [RecordModel](#recordmodel)
+2. [RecordCredential](#recordcredential)
+3. [BoundInstance](#boundinstance)
+4. [@Bind](#annotation-bind)
+5. [DynamicProvider](#dynamicprovider)
+  1. [DynamicProvider's methods](#methods)
+6. [Query](#query-class)
   - [RecordResults](#recordresults)
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
