@@ -10,7 +10,7 @@ Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracl
 - **dist/dynamicloud-1.0.0.jar**
 - **Dependencies are in lib folder**
 
-#Java docs
+#Javadoc
 
 To read the java documentation, click [here](http://www.dynamicloud.org/ "Dynamicloud Java documentation")
 
