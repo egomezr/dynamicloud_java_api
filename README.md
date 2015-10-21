@@ -29,7 +29,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - Functions as a Projection
 - Update using selection
 - Delete using selection
-- 
+
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
 #RecordModel
