@@ -378,3 +378,26 @@ ModelField instance = query.list().get(0);
 Double average = instance.getAverage();
 
 ```
+
+#Update using selection
+
+There are situations where you need to update records using a specific selection.
+
+In this example we are going to update the **name** where age > 24
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+ModelField instance = new ModelField();
+instance.setName("Eleazar");
+provider.setBoundInstance(instance;
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.greaterThan("age", 24));
+
+/*
+ This method will use the BoundInstance to get the data different than null (in this case the only data to use is **name**)     and the query object to update only the records that match with the selection.
+*/
+
+provider.update(query);
+
+```
