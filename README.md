@@ -19,8 +19,6 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - BoundInstance
 - @Bind
 - DynamicProvider
-  - Update using selection
-  - Delete using selection
 - Query
   - RecordResults
   - Condition
@@ -29,7 +27,9 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - Order by
   - Group by and Projection
   - Functions as a Projection
-
+- Update using selection
+- Delete using selection
+- 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
 #RecordModel
