@@ -23,12 +23,12 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - [BoundInstance](#boundinstance)
 - [@Bind](#@bind)
 - [DynamicProvider](#dynamicprovider)
-- [Query](#query)
+- [Query](#query-class)
   - [RecordResults](#recordresults)
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
-  - Order by
+  - [Order by](#order-by)
   - Group by and Projection
   - Functions as a Projection
 - Update using selection
