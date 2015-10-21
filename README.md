@@ -25,7 +25,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - [DynamicProvider](#dynamicprovider)
 - [Query](#query)
   - [RecordResults](#recordresults)
-  - [Condition](#condition)
+  - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - Order by
