@@ -26,8 +26,8 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - [Query](#query)
   - [RecordResults](#recordresults)
   - [Condition](#condition)
-  - [Conditions](#conditions)
-  - [Next, Offset and Count methods](#next,_offset_and_count_methods)
+  - [Conditions](#conditions-class)
+  - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - Order by
   - Group by and Projection
   - Functions as a Projection
