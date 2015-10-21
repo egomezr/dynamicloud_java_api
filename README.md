@@ -21,13 +21,13 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - [RecordModel](#recordmodel)
 - [RecordCredential](#recordcredential)
 - [BoundInstance](#boundinstance)
-- @Bind
-- DynamicProvider
-- Query
-  - RecordResults
-  - Condition
-  - Conditions
-  - Next, Offset and Count methods
+- [@Bind](#@bind)
+- [DynamicProvider](#dynamicprovider)
+- [Query](#query)
+  - [RecordResults](#recordresults)
+  - [Condition](#condition)
+  - [Conditions](#conditions)
+  - [Next, Offset and Count methods](#next,_offset_and_count_methods)
   - Order by
   - Group by and Projection
   - Functions as a Projection
