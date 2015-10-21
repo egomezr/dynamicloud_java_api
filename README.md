@@ -363,7 +363,7 @@ for (ModelField item : results.getRecords()) {
 ```
 #Functions as a Projection
 
-Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can set the function you want to call. Every function must has an alias to bind with a setMethod in BoundInstance object.
+Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can set the function you want to call. Every function must has an alias to bind it with a setMethod in BoundInstance object.
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
