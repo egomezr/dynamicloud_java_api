@@ -23,7 +23,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 3. [BoundInstance](#boundinstance)
 4. [@Bind](#annotation-bind)
 5. [DynamicProvider](#dynamicprovider)
-  - [DynamicProvider's methods](#methods)
+  1. [DynamicProvider's methods](#methods)
 6. [Query](#query-class)
   1. [RecordResults](#recordresults)
   - [Condition](#conditions-class)
