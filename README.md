@@ -21,7 +21,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - [RecordModel](#recordmodel)
 - [RecordCredential](#recordcredential)
 - [BoundInstance](#boundinstance)
-- [@Bind](#@bind)
+- [@Bind](#annotation-bind)
 - [DynamicProvider](#dynamicprovider)
 - [Query](#query-class)
   - [RecordResults](#recordresults)
@@ -29,8 +29,8 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - [Conditions](#conditions-class)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - [Order by](#order-by)
-  - Group by and Projection
-  - Functions as a Projection
+  - [Group by and Projection](#group-by-and-projection)
+  - [Functions as a Projection](#functions-as-a-projection)
 - Update using selection
 - Delete using selection
 
