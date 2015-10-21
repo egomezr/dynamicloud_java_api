@@ -10,6 +10,10 @@ Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracl
 - **dist/dynamicloud-1.0.0.jar**
 - **Dependencies are in lib folder**
 
+#Java docs
+
+To read the java documentation, click [here](http://www.dynamicloud.org/ "Dynamicloud Java documentation")
+
 # Getting started
 
 This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components and methods are the followings:
