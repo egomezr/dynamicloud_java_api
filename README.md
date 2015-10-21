@@ -9,6 +9,7 @@ Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracl
 
 - **dist/dynamicloud-1.0.0.jar**
 - **Dependencies are in lib folder**
+- **example/blog-test**
 
 #Javadoc
 
