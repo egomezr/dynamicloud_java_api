@@ -25,10 +25,10 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - RecordResults
   - Condition
   - Conditions
-  - Group by and Projection
-  - Functions as a Projection
   - Next, Offset and Count methods
   - Order by
+  - Group by and Projection
+  - Functions as a Projection
 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
