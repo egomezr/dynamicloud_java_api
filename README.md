@@ -12,7 +12,7 @@ Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracl
 
 # Getting started
 
-This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
+This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components and methods are the followings:
 
 - RecordModel
 - RecordCredential
@@ -363,4 +363,18 @@ for (ModelField item : results.getRecords()) {
 ```
 #Functions as a Projection
 
-Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can 
+Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can set the function you want to call. Every function must has an alias to bind with a setMethod in BoundInstance object.
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+
+query.add(Conditions.like("name", "Eleaz%")).
+  query.setProjection(new String[]{"avg(age) as average"});
+
+ModelField instance = query.list().get(0);
+Double average = instance.getAverage();
+
+```
