@@ -1,4 +1,4 @@
-# Dynamicloud Java API V1.0.0
+# Dynamicloud Java API v1.0.0
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
 #Requirements
