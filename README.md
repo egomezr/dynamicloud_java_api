@@ -22,13 +22,13 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - Update using selection
   - Delete using selection
 - Query
-  - Order by
+  - RecordResults
+  - Condition
+  - Conditions
   - Group by and Projection
   - Functions as a Projection
   - Next, Offset and Count methods
-- Condition
-- Conditions
-- RecordResults
+  - Order by
 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
@@ -182,6 +182,33 @@ public RecordResults<T> next() throws DynamicloudProviderException;
 
 With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.  The query object is mutable and every call of its methods will return the same instance.
 
+#RecordResults
+
+**This class provides three methods:**
+- **getTotalRecords:** The total records in RecordModel
+- **getFastReturnedSize:** The returned size of records that have matched with Query conditions
+- **getRecords:** A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
+
+**The uses of this class would be as a follow:**
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+/*
+ This setBoundClass indicates what kind of object will be used at moment 
+ of records building.  If this set it's never called getRecords method will 
+ return a generic list of objects.
+*/
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+RecordResults results = query.list();
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail():
+}
+```
+
 #Conditions class
 
 This class provides a set of methods to build conditions and add them in query object
@@ -234,33 +261,6 @@ These two calls of add method will produce something like this:
 name like 'Eleazar%' **AND** age = 33
 
 Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
-
-#RecordResults
-
-**This class provides three methods:**
-- **getTotalRecords:** The total records in RecordModel
-- **getFastReturnedSize:** The returned size of records that have matched with Query conditions
-- **getRecords:** A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
-
-**The uses of this class would be as a follow:**
-
-```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
-/*
- This setBoundClass indicates what kind of object will be used at moment 
- of records building.  If this set it's never called getRecords method will 
- return a generic list of objects.
-*/
-recordModel.setBoundClass(ModelField.class);
-
-Query<ModelField> query = provider.createQuery(model);
-query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
-
-RecordResults results = query.list();
-for (ModelField item : results.getRecords()) {
-  String email = item.getEmail():
-}
-```
 
 #Next, Offset and Count methods
 
