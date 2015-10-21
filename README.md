@@ -1,6 +1,10 @@
 # Dynamicloud Java API
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
+#Requirements
+
+Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html, "Download Java")
+
 # Getting started
 
 This API provides components to execute operations on [Dynamicloud](http://www.dynamicloud.org/ "Dynamicloud") servers.  The main components are the followings:
@@ -15,6 +19,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 - Query
   - Order by
   - Group by and Projection
+  - Functions as a Projection
   - Next, Offset and Count methods
 - Condition
 - Conditions
@@ -327,7 +332,7 @@ for (ModelField item : results.getRecords()) {
 
 ```
 
-#Group by
+#Group by and Projection
 
 To group by a specifics fields, the query object provides the method **groupBy**.  To use this clause, you must set the projection to the query using **setProjection** method.
 
@@ -351,3 +356,6 @@ for (ModelField item : results.getRecords()) {
 }
 
 ```
+#Functions as a Projection
+
+Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can 
