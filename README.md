@@ -371,8 +371,8 @@ recordModel.setBoundClass(ModelField.class);
 
 Query<ModelField> query = provider.createQuery(model);
 
-query.add(Conditions.like("name", "Eleaz%")).
-  query.setProjection(new String[]{"avg(age) as average"});
+query.add(Conditions.like("name", "Eleaz%"));
+query.setProjection(new String[]{"avg(age) as average"});
 
 ModelField instance = query.list().get(0);
 Double average = instance.getAverage();
