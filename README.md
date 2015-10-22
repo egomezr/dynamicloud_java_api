@@ -310,7 +310,7 @@ query.setCount(10).setOffset(1);
 
 RecordResults results = query.list();
 for (ModelField item : results.getRecords()) {
-  String email = item.getEmail():
+  String email = item.getEmail();
 }
 
 //This call will fetch max 10 records and will start from twenty first record.
@@ -318,7 +318,7 @@ results = query.next();
 
 //Loop through the next 10 records
 for (ModelField item : results.getRecords()) {
-  String email = item.getEmail():
+  String email = item.getEmail();
 }
 ```
 
