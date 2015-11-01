@@ -1,6 +1,8 @@
 # Dynamicloud Java API v1.0.0 (BETA)
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
+####**If you want to test Dynamicloud as a beta tester, please send an email to: social@dynamicloud.org with your Name and Country.**
+
 #Requirements
 
 Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java")
