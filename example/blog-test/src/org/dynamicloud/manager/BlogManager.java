@@ -22,8 +22,8 @@ public class BlogManager {
     public static final long BLOG_MODEL_ID = 980190978L;
     public static final long POST_MODEL_ID = 980190979L;
 
-    private static final String CSK = "csk#5c6f68d48ff4905a80d396a465580d34fc6e8fa2";
-    private static final String ACI = "aci#81969f0abe4d15d4304411e65c6557e64b3b6576";
+    private static final String CSK = "csk#...";
+    private static final String ACI = "aci#...";
 
     /**
      * This method saves a user in Dynamicloud
