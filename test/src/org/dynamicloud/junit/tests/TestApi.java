@@ -18,8 +18,8 @@ import java.util.List;
  **/
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class TestApi extends TestCase {
-    public static final String CSK = "csk#f66d45541a562558c1854b79cf9cc0c7a4c5c209";
-    public static final String ACI = "aci#12ea40b29cbbc6a90289838d7e800be3fe8f9868";
+    public static final String CSK = "csk#...";
+    public static final String ACI = "aci#...";
 
     private static long modelId = 980190974;
     private static RecordModel recordModel = new RecordModel(modelId);
