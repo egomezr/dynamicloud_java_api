@@ -183,6 +183,7 @@ This class provides a set of methods to add conditions, order by and group by cl
 
 ```java
 public Query add(Condition condition);
+public Query join(Condition condition);
 public Query asc();
 public Query desc();
 public Query setCount(int count);
@@ -247,6 +248,11 @@ public static Condition greaterEquals(String left, Object right);
 public static Condition greaterThan(String left, Object right);
 public static Condition lesserThan(String left, Object right);
 public static Condition lesserEquals(String left, Object right);
+public static JoinClause leftJoin(RecordModel model, String alias, String Condition);
+public static JoinClause leftOuterJoin(RecordModel model, String alias, String Condition);
+public static JoinClause rightJoin(RecordModel model, String alias, String Condition);
+public static JoinClause rightOuterJoin(RecordModel model, String alias, String Condition);
+public static JoinClause innerJoin(RecordModel model, String alias, String Condition);
 
 ```
 
