@@ -39,8 +39,8 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   1. [RecordResults](#recordresults)
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
-  - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - [Join clause](#join-clause)
+  - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - [Order by](#order-by)
   - [Group by and Projection](#group-by-and-projection)
   - [Functions as a Projection](#functions-as-a-projection)
@@ -285,60 +285,6 @@ name like 'Eleazar%' **AND** age = 33
 
 Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
 
-#Next, Offset and Count methods
-
-Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load the whole set of records, you need to find a way to load a sub-set by demand.
-
-The method to meet this goal is **next**.  Basically, the next method will increase the offset automatically and will execute the request with the previous conditions. By default, offset and count will have 0 and 15 respectively.
-
-**The uses of this method would be as a follow:**
-
-```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
-recordModel.setBoundClass(ModelField.class);
-
-Query<ModelField> query = provider.createQuery(model);
-query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
-
-RecordResults results = query.list();
-for (ModelField item : results.getRecords()) {
-  String email = item.getEmail():
-}
-
-results = query.next();
-
-//Loop with the next 15 records
-for (ModelField item : results.getRecords()) {
-  String email = item.getEmail():
-}
-```
-
-If you want to set an **offset** or **count**, follow this guideline:
-
-```java
-DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
-recordModel.setBoundClass(ModelField.class);
-
-Query<ModelField> query = provider.createQuery(model);
-query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
-
-//Every call will fetch max 10 records and will start from eleventh record.
-query.setCount(10).setOffset(1);
-
-RecordResults results = query.list();
-for (ModelField item : results.getRecords()) {
-  String email = item.getEmail();
-}
-
-//This call will fetch max 10 records and will start from twenty first record.
-results = query.next();
-
-//Loop through the next 10 records
-for (ModelField item : results.getRecords()) {
-  String email = item.getEmail();
-}
-```
-
 #Join Clause
 
 With Join Clause you can execute conditions and involve more than one model.  This is useful in situations when you need to compare data between two or more models and get information in one execution.
@@ -397,6 +343,60 @@ try {
         // Code here to maniulate the results
     }
 } catch (DynamicloudProviderException ignore) {
+}
+```
+
+#Next, Offset and Count methods
+
+Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load the whole set of records, you need to find a way to load a sub-set by demand.
+
+The method to meet this goal is **next**.  Basically, the next method will increase the offset automatically and will execute the request with the previous conditions. By default, offset and count will have 0 and 15 respectively.
+
+**The uses of this method would be as a follow:**
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+RecordResults results = query.list();
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail():
+}
+
+results = query.next();
+
+//Loop with the next 15 records
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail():
+}
+```
+
+If you want to set an **offset** or **count**, follow this guideline:
+
+```java
+DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
+recordModel.setBoundClass(ModelField.class);
+
+Query<ModelField> query = provider.createQuery(model);
+query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
+
+//Every call will fetch max 10 records and will start from eleventh record.
+query.setCount(10).setOffset(1);
+
+RecordResults results = query.list();
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail();
+}
+
+//This call will fetch max 10 records and will start from twenty first record.
+results = query.next();
+
+//Loop through the next 10 records
+for (ModelField item : results.getRecords()) {
+  String email = item.getEmail();
 }
 ```
 
