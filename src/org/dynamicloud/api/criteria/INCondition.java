@@ -19,7 +19,7 @@ public class INCondition implements Condition {
      * @param values values to use to build IN or NOT IN condition
      * @param notIn  indicates if this condition is a not in.
      */
-    public INCondition(String left, Object[] values, boolean notIn) {
+    protected INCondition(String left, Object[] values, boolean notIn) {
         this.left = left;
         this.values = values;
         this.notIn = notIn;

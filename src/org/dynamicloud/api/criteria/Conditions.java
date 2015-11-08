@@ -1,5 +1,7 @@
 package org.dynamicloud.api.criteria;
 
+import org.dynamicloud.api.model.RecordModel;
+
 /**
  * This is a builder to create conditions: AND, OR, LIKE, NOT LIKE, IN, NOT IN, EQUALS, GREATER THAN, GREATER EQUALS THAN
  * LESSER THAN, LESSER EQUALS THAN.
@@ -44,7 +46,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values string values to build IN condition
      * @return a built condition.
      */
@@ -55,7 +57,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values number values to build IN condition
      * @return a built condition.
      */
@@ -66,7 +68,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values character values to build IN condition
      * @return a built condition.
      */
@@ -77,7 +79,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values string values to build IN condition
      * @return a built condition.
      */
@@ -88,7 +90,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values number values to build IN condition
      * @return a built condition.
      */
@@ -99,7 +101,7 @@ public class Conditions {
     /**
      * It will an in condition using an array of values.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values character values to build IN condition
      * @return a built condition.
      */
@@ -132,7 +134,7 @@ public class Conditions {
     /**
      * It will build an equals condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -141,9 +143,29 @@ public class Conditions {
     }
 
     /**
-     * It will build an equals condition.
+     * It will build a is null condition
      *
      * @param left attribute to compare
+     * @return a built condition
+     */
+    public static Condition isNull(String left) {
+        return new NullCondition(left, false);
+    }
+
+    /**
+     * It will build a is null condition
+     *
+     * @param left attribute to compare
+     * @return a built condition
+     */
+    public static Condition isNotNull(String left) {
+        return new NullCondition(left, true);
+    }
+
+    /**
+     * It will build an equals condition.
+     *
+     * @param left  attribute to compare
      * @param right Number to use for equals condition
      * @return a built condition.
      */
@@ -154,7 +176,7 @@ public class Conditions {
     /**
      * It will build an equals condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -165,7 +187,7 @@ public class Conditions {
     /**
      * It will build a not equals condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -176,7 +198,7 @@ public class Conditions {
     /**
      * It will build a greater equals condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -187,7 +209,7 @@ public class Conditions {
     /**
      * It will build a greater than condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -198,7 +220,7 @@ public class Conditions {
     /**
      * It will build a greater than condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -209,7 +231,7 @@ public class Conditions {
     /**
      * It will build a lesser equals condition.
      *
-     * @param left attribute to compare
+     * @param left  attribute to compare
      * @param right right part of this condition
      * @return a built condition.
      */
@@ -218,9 +240,69 @@ public class Conditions {
     }
 
     /**
+     * Builds a left join clause.
+     *
+     * @param model         target model of this join
+     * @param alias         attached alias to this target model
+     * @param Condition on condition of this join clause
+     * @return a Join Clause as a condition
+     */
+    public static JoinClause leftJoin(RecordModel model, String alias, String Condition) {
+        return new JoinClause(JoinType.LEFT, model, alias, Condition);
+    }
+
+    /**
+     * Builds a left outer join clause.
+     *
+     * @param model         target model of this join
+     * @param alias         attached alias to this target model
+     * @param Condition on condition of this join clause
+     * @return a Join Clause as a condition
+     */
+    public static JoinClause leftOuterJoin(RecordModel model, String alias, String Condition) {
+        return new JoinClause(JoinType.LEFT_OUTER, model, alias, Condition);
+    }
+
+    /**
+     * Builds a right join clause.
+     *
+     * @param model         target model of this join
+     * @param alias         attached alias to this target model
+     * @param Condition on condition of this join clause
+     * @return a Join Clause as a condition
+     */
+    public static JoinClause rightJoin(RecordModel model, String alias, String Condition) {
+        return new JoinClause(JoinType.RIGHT, model, alias, Condition);
+    }
+
+    /**
+     * Builds a right outer join clause.
+     *
+     * @param model         target model of this join
+     * @param alias         attached alias to this target model
+     * @param Condition on condition of this join clause
+     * @return a Join Clause as a condition
+     */
+    public static JoinClause rightOuterJoin(RecordModel model, String alias, String Condition) {
+        return new JoinClause(JoinType.RIGHT_OUTER, model, alias, Condition);
+    }
+
+    /**
+     * Builds a inner join clause.
+     *
+     * @param model         target model of this join
+     * @param alias         attached alias to this target model
+     * @param Condition on condition of this join clause
+     * @return a Join Clause as a condition
+     */
+    public static JoinClause innerJoin(RecordModel model, String alias, String Condition) {
+        return new JoinClause(JoinType.INNER, model, alias, Condition);
+    }
+
+    /**
      * This method will build a not equals condition.
      *
-     * @param left value to compare
+     * @param left  value to compare
      * @param right right part of this condition
      * @return a built condition
      */
@@ -231,8 +313,8 @@ public class Conditions {
     /**
      * This method will build either a equals condition.
      *
-     * @param left value to compare
-     * @param greaterLesser   indicates if greater or lesser condition must be added.
+     * @param left          value to compare
+     * @param greaterLesser indicates if greater or lesser condition must be added.
      * @return a built condition
      */
     private static Condition innerEquals(String left, Object right, char greaterLesser) {
@@ -243,7 +325,7 @@ public class Conditions {
      * It will either an in or not in condition using an array of values and a boolean that indicates
      * what kind of IN will be built.
      *
-     * @param left attribute to compare
+     * @param left   attribute to compare
      * @param values String values to build IN condition
      * @return a built condition.
      */

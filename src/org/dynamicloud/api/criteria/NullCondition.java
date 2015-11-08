@@ -12,12 +12,12 @@ public class NullCondition implements Condition {
     private boolean isNotNull;
 
     /**
-     * Build the condition using left part and flag that indicates what kind of comparison must be used.
+     * Builds the condition using left part and flag that indicates what kind of comparison must be used.
      *
      * @param left attribute to compare.
      * @param isNotNull flag that indicates what kind of comparison.
      */
-    public NullCondition(String left, boolean isNotNull) {
+    protected NullCondition(String left, boolean isNotNull) {
         this.left = left;
         this.isNotNull = isNotNull;
     }

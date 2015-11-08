@@ -2,10 +2,11 @@ package org.dynamicloud.junit.tests;
 
 import junit.framework.TestCase;
 import org.dynamicloud.api.*;
-import org.dynamicloud.api.criteria.Conditions;
+import org.dynamicloud.api.criteria.*;
 import org.dynamicloud.api.model.RecordField;
 import org.dynamicloud.api.model.RecordModel;
 import org.dynamicloud.exception.DynamicloudProviderException;
+import org.dynamicloud.junit.bean.JoinResultBean;
 import org.dynamicloud.junit.bean.ModelFields;
 
 import java.io.File;
@@ -18,12 +19,14 @@ import java.util.List;
  **/
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class TestApi extends TestCase {
-    public static final String CSK = "csk#...";
-    public static final String ACI = "aci#...";
-
+    public static final String CSK = "csk#f66d45541a562558c1854b79cf9cc0c7a4c5c209";
+    public static final String ACI = "aci#12ea40b29cbbc6a90289838d7e800be3fe8f9868";
+    private final static String FILE_PATH = "/Users/egomezr/Documents/upload.sql";
+    private final static String TEST_CASE_FILE = "/Users/egomezr/Documents/TEST_CASE_FILE.sql";
     private static long modelId = 980190974;
+    private static long auxModelId = 980190972;
     private static RecordModel recordModel = new RecordModel(modelId);
-
+    private static RecordModel auxRecordModel = new RecordModel(auxModelId);
     private static DynamicProvider<ModelFields> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
 
     public void testEqualsNotEquals() {
@@ -329,7 +332,7 @@ public class TestApi extends TestCase {
     public void testLoadModels() {
         try {
             List<RecordModel> models = provider.loadModels();
-            assertEquals(2, models.size());
+            assertTrue(models.size() >= 2);
         } catch (DynamicloudProviderException e) {
             fail(e.getMessage());
         }
@@ -390,9 +393,6 @@ public class TestApi extends TestCase {
         }
     }
 
-    private final static String FILE_PATH = "/Users/egomezr/Documents/upload.sql";
-    private final static String TEST_CASE_FILE = "/Users/egomezr/Documents/TEST_CASE_FILE.sql";
-
     public void testShareDownUploadFile() {
         try {
             provider.uploadFile(recordModel.getId(), 2l, "photo", new File(FILE_PATH),
@@ -410,6 +410,166 @@ public class TestApi extends TestCase {
             provider.downloadFile(recordModel.getId(), 2l, "photo", file);
 
             assertTrue(new File(TEST_CASE_FILE).exists());
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testAliasPresenceJoin() {
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+        try {
+            /**
+             * It is important the receptor bean to attach the results to this bean.
+             */
+            query.join(Conditions.innerJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+
+            query.list();
+
+            fail("Server didn't validate alias presence.");
+        } catch (DynamicloudProviderException ignore) {
+
+        }
+    }
+
+    public void testInnerJoin() {
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+        try {
+            /**
+             * This is the alias to recordModel, this alias is necessary to use JoinClause
+             */
+            query.setAlias("user");
+
+            /**
+             * It is important the receptor bean to attach the results to this bean.
+             */
+            recordModel.setBoundClass(JoinResultBean.class);
+
+            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.innerJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+            query.orderBy("user.country").asc();
+
+            RecordResults<JoinResultBean> results = query.list();
+
+            if (results.getFastReturnedSize() > 0) {
+                JoinResultBean bean = results.getRecords().get(0);
+
+                assertEquals("bra", bean.getCountry());
+                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+            } else {
+                fail("Without results.  That's wrong!");
+            }
+
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testLeftJoin() {
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+        try {
+            /**
+             * This is the alias to recordModel, this alias is necessary to use JoinClause
+             */
+            query.setAlias("user");
+
+            /**
+             * It is important the receptor bean to attach the results to this bean.
+             */
+            recordModel.setBoundClass(JoinResultBean.class);
+
+            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+            query.orderBy("user.country").asc();
+
+            RecordResults<JoinResultBean> results = query.list();
+
+            if (results.getFastReturnedSize() > 0) {
+                JoinResultBean bean = results.getRecords().get(0);
+
+                assertEquals("bra", bean.getCountry());
+                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+            } else {
+                fail("Without results.  That's wrong!");
+            }
+
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testRightJoin() {
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+        try {
+            /**
+             * This is the alias to recordModel, this alias is necessary to use JoinClause
+             */
+            query.setAlias("user");
+
+            /**
+             * It is important the receptor bean to attach the results to this bean.
+             */
+            recordModel.setBoundClass(JoinResultBean.class);
+
+            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+            query.orderBy("user.country").asc();
+
+            RecordResults<JoinResultBean> results = query.list();
+
+            if (results.getFastReturnedSize() > 0) {
+                JoinResultBean bean = results.getRecords().get(0);
+
+                assertEquals("bra", bean.getCountry());
+                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+            } else {
+                fail("Without results.  That's wrong!");
+            }
+
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testJoinAndSelection() {
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+        try {
+            /**
+             * This is the alias to recordModel, this alias is necessary to use JoinClause
+             */
+            query.setAlias("user");
+
+            /**
+             * It is important the receptor bean to attach the results to this bean.
+             */
+            recordModel.setBoundClass(JoinResultBean.class);
+
+            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+            query.add(Conditions.notEquals("aux.birthdat", "2015-09-15"));
+
+            query.orderBy("user.country").asc();
+
+            RecordResults<JoinResultBean> results = query.list();
+
+            if (results.getFastReturnedSize() > 0) {
+                JoinResultBean bean = results.getRecords().get(0);
+
+                assertEquals("bra", bean.getCountry());
+                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+            } else {
+                fail("Without results.  That's wrong!");
+            }
+
         } catch (DynamicloudProviderException e) {
             fail(e.getMessage());
         }

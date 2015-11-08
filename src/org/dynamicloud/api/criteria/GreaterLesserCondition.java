@@ -14,20 +14,20 @@ public class GreaterLesserCondition implements Condition {
     private boolean needQuotes;
 
     /**
-     *
      * @param greaterLesser indicates what kind of symbol will be used in this condition <b>&gt; or &lt;</b>.
-     * @param left left part of this condition
-     * @param right right part of this condition
+     * @param left          left part of this condition
+     * @param right         right part of this condition
      */
-    public GreaterLesserCondition(char greaterLesser, String left, Object right) {
+    protected GreaterLesserCondition(char greaterLesser, String left, Object right) {
         this.greaterLesser = greaterLesser;
         this.left = left;
         this.right = right;
-        this.needQuotes = right instanceof  String || right instanceof Character;
+        this.needQuotes = right instanceof String || right instanceof Character;
     }
 
     /**
      * This method will return a String of this condition
+     *
      * @param parent this is the parent of this condition
      * @return a json
      */

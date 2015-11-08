@@ -17,7 +17,7 @@ public class OrderByClause implements Condition {
      *
      * @return an orderBy object
      */
-    public static OrderByClause desc(String attribute) {
+    protected static OrderByClause desc(String attribute) {
         OrderByClause order = new OrderByClause();
         order.asc = false;
         order.attribute = attribute;

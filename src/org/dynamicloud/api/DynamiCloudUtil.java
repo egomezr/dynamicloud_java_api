@@ -389,8 +389,21 @@ public class DynamiCloudUtil {
      */
     public static String buildString(List<Condition> conditions, GroupByClause groupBy, OrderByClause orderBy,
                                      String projection) throws DynamicloudProviderException {
+        return buildString(conditions, groupBy, orderBy, projection, null, null);
+    }
 
-        String built = "{" + (projection == null ? "" : projection) + "\"where\": {";
+    /**
+     * Builds a compatible String to use in service executions
+     *
+     * @param alias this is the alias attached to the select model
+     * @return compatible String
+     * @throws DynamicloudProviderException if any error occurs
+     */
+    public static String buildString(List<Condition> conditions, GroupByClause groupBy, OrderByClause orderBy,
+                                     String projection, String alias, List<JoinClause> joins) throws DynamicloudProviderException {
+
+        String built = "{" + (alias == null ? "" : "\"alias\": \"" + alias + "\",") + buildJoinTag(joins)  +
+                (StringUtils.isEmpty(projection) ? "" : (", " + projection)) + ", \"where\": {";
 
         if (conditions.size() > 0) {
             Condition global = conditions.get(0);
@@ -418,6 +431,28 @@ public class DynamiCloudUtil {
     }
 
     /**
+     * This method builds the tag joins as follows:
+     * i.e: "joins": [ { "type": "full", "alias": "user", "target": "3456789", "on": { "user.id" : "languages.id" } } ]
+     *
+     * @param joins list of join clauses
+     * @return the representation of a join tag.
+     */
+    public static String buildJoinTag(List<JoinClause> joins) {
+        String tag = "\"joins\": [";
+
+        if (joins != null) {
+            boolean firstTime = true;
+            for (JoinClause clause : joins) {
+                tag += (firstTime ? "" : ", ") + clause.toRecordString(Conditions.ROOT);
+
+                firstTime = false;
+            }
+        }
+
+        return tag + "]";
+    }
+
+    /**
      * Build a compatible string using projection
      *
      * @return string using projection
@@ -433,7 +468,7 @@ public class DynamiCloudUtil {
             cols += (cols.length() == 0 ? "" : ", ") + "\"" + field + "\"";
         }
 
-        return columns + cols + "], ";
+        return columns + cols + "]";
     }
 
 

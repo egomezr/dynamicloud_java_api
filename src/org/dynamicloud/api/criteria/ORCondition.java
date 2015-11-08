@@ -18,7 +18,7 @@ public class ORCondition implements Condition {
      * @param left  left part of this or condition
      * @param right right part of this or condition
      */
-    public ORCondition(Condition left, Condition right) {
+    protected ORCondition(Condition left, Condition right) {
         this.left = left;
         this.right = right;
     }

@@ -10,6 +10,10 @@ package org.dynamicloud.util;
 public class StringUtils {
     public static final String EMPTY = "";
 
+    public static boolean isEmpty(String string) {
+        return string == null || string.trim().equals("");
+    }
+
     /**
      * Will return a capitalized string
      *

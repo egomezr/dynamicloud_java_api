@@ -15,18 +15,20 @@ public class EqualCondition implements Condition {
 
     /**
      * This constructor will build an equal condition using left and right parts.
+     *
      * @param left  left part of this equal condition
      * @param right right part of this equal condition
      */
-    public EqualCondition(String left, Object right, char greaterLesser) {
+    protected EqualCondition(String left, Object right, char greaterLesser) {
         this.left = left;
         this.right = right;
-        this.needQuotes = right instanceof  String || right instanceof Character;
+        this.needQuotes = right instanceof String || right instanceof Character;
         this.greaterLesser = greaterLesser;
     }
 
     /**
      * This method will return a String of this condition
+     *
      * @param parent this is the parent of this condition
      * @return a json
      */

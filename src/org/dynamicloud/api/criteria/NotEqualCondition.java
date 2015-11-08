@@ -16,7 +16,7 @@ public class NotEqualCondition implements Condition {
      * @param left  attribute to compare
      * @param right right part of this condition
      */
-    public NotEqualCondition(String left, Object right) {
+    protected NotEqualCondition(String left, Object right) {
         this.left = left;
         this.right = right;
     }

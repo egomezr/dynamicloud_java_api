@@ -1,6 +1,7 @@
 package org.dynamicloud.api;
 
 import org.dynamicloud.api.criteria.Condition;
+import org.dynamicloud.api.criteria.JoinClause;
 import org.dynamicloud.api.model.RecordModel;
 import org.dynamicloud.exception.DynamicloudProviderException;
 
@@ -30,6 +31,14 @@ public interface Query<T> {
      * @return this instance of Query
      */
     Query asc();
+
+    /**
+     * Attaches a alias to this query, the model in this query will use this alias in Join Clauses or whatever situation where alias is needed.
+     *
+     * @param alias alias to attach
+     * @return this instance of Query
+     */
+    Query setAlias(String alias);
 
     /**
      * This method will add a new condition to an AND list of conditions.
@@ -112,6 +121,14 @@ public interface Query<T> {
     Query groupBy(String[] attributes);
 
     /**
+     * Add a join to the list of joins
+     *
+     * @param join join clause
+     * @return this instance of Query
+     */
+    Query join(JoinClause join);
+
+    /**
      * Gets the current offset so far.  This attribute will increase according calls of method next()
      *
      * @return int of current offset
@@ -128,6 +145,7 @@ public interface Query<T> {
 
     /**
      * Returns the current RecordModel associated to this query
+     *
      * @return RecordModel
      */
     RecordModel getModel();

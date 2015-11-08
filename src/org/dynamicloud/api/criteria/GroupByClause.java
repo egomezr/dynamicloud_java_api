@@ -8,15 +8,25 @@ package org.dynamicloud.api.criteria;
  * @since 8/24/15
  **/
 public class GroupByClause implements Condition {
-    private String [] attributes;
+    private String[] attributes;
 
     /**
      * Constructor to build a group by condition
      *
      * @param attributes attributes in group by clause
      */
-    public GroupByClause(String[] attributes) {
+    protected GroupByClause(String[] attributes) {
         this.attributes = attributes;
+    }
+
+    /**
+     * Builds a GroupBy clause
+     *
+     * @param attributes in this group by clause.
+     * @return a GroupBy clause
+     */
+    public static GroupByClause groupBy(String[] attributes) {
+        return new GroupByClause(attributes);
     }
 
     /**

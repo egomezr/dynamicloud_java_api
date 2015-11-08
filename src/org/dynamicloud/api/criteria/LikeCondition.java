@@ -18,7 +18,7 @@ public class LikeCondition implements Condition {
      * @param left  left part of this like condition.
      * @param right right part of this like condition.
      */
-    public LikeCondition(String left, String right, boolean notLike) {
+    protected LikeCondition(String left, String right, boolean notLike) {
         this.left = left;
         this.right = right;
         this.notLike = notLike;

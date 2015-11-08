@@ -1,8 +1,6 @@
 package org.dynamicloud.api;
 
-import org.dynamicloud.api.criteria.Condition;
-import org.dynamicloud.api.criteria.GroupByClause;
-import org.dynamicloud.api.criteria.OrderByClause;
+import org.dynamicloud.api.criteria.*;
 import org.dynamicloud.api.model.RecordModel;
 import org.dynamicloud.exception.DynamicloudProviderException;
 import org.dynamicloud.service.ServiceCaller;
@@ -33,11 +31,31 @@ public class RecordQuery<T> implements Query<T> {
     private int offset;
     private int count;
     private boolean listWasCalled = false;
+    private List<JoinClause> joins;
+    private String alias;
 
     private List<Condition> conditions = new LinkedList<>();
 
+    /**
+     * Buils a query using that RecordModel
+     *
+     * @param recordModel record model of that query
+     */
     public RecordQuery(RecordModel recordModel) {
         this.recordModel = recordModel;
+        this.joins = new LinkedList<>();
+    }
+
+    /**
+     * Attaches a alias to this query, the model in this query will use this alias in Join Clauses or whatever situation where alias is needed.
+     *
+     * @param alias alias to attach
+     * @return this instance of Query
+     */
+    public Query setAlias(String alias) {
+        this.alias = alias;
+
+        return this;
     }
 
     /**
@@ -133,6 +151,19 @@ public class RecordQuery<T> implements Query<T> {
     }
 
     /**
+     * Add a join to the list of joins
+     *
+     * @param join join clause
+     * @return this instance of Query
+     */
+    @Override
+    public Query join(JoinClause join) {
+        this.joins.add(join);
+
+        return this;
+    }
+
+    /**
      * Gets the current offset so far.  This attribute will increase according calls of method next()
      *
      * @return int of current offset
@@ -209,7 +240,7 @@ public class RecordQuery<T> implements Query<T> {
      * @param attributes projection by this query will group.
      */
     private void setGroupBy(String[] attributes) {
-        groupBy = new GroupByClause(attributes);
+        groupBy = GroupByClause.groupBy(attributes);
     }
 
     /**
@@ -274,7 +305,7 @@ public class RecordQuery<T> implements Query<T> {
     public RecordResults<T> list() throws DynamicloudProviderException {
 
         String criteria = DynamiCloudUtil.buildString(getConditions(), getGroupBy(), getOrderBy(),
-                DynamiCloudUtil.buildProjection(this.projection));
+                DynamiCloudUtil.buildProjection(this.projection), this.alias, this.joins);
 
         String urlGetRecords;
         if (projection == null) {
