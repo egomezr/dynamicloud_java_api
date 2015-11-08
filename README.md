@@ -346,7 +346,7 @@ With Join Clause you can execute conditions and involve more than one model.  Th
 **A Join Clause is composed by: Model, Type, Alias and ON condition:**
 
 ```java
-DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
 
 Query<JoinResultBean> query = provider.createQuery(recordModel);
 
@@ -370,7 +370,7 @@ try {
     * Conditions class provides: innerJoin, leftJoin, rightJoin, leftOuterJoin and rightOuterJoin.
     * If you need to add more than one join, you have to call query.join(...) and will be added in the query join list.
     *
-    * This is an example to get the count of languages of every users.
+    * This is an example to get the count of languages of every user.
     */
     query.join(Conditions.innerJoin(languagesRecordModel, "lang", "user.id = lang.userid"));
 
