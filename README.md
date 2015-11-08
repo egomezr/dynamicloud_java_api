@@ -40,6 +40,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
+  - [Join clause](#Join-clause)
   - [Order by](#order-by)
   - [Group by and Projection](#group-by-and-projection)
   - [Functions as a Projection](#functions-as-a-projection)
@@ -335,6 +336,61 @@ results = query.next();
 //Loop through the next 10 records
 for (ModelField item : results.getRecords()) {
   String email = item.getEmail();
+}
+```
+
+#Join Clause
+
+With Join Clause you can execute conditions and involve more than one model.  This is useful in situations when you need to compare data between two or more models and get information in one execution.
+
+**A Join Clause is composed by: Model, Type, Alias and ON condition:**
+
+```java
+DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query<JoinResultBean> query = provider.createQuery(recordModel);
+
+try {
+    /**
+     * This is the alias to recordModel, this alias is necessary to use JoinClause
+     */
+    query.setAlias("user");
+
+    /**
+     * It is important the receptor bean to attach the results to it.  In this exemple, this bean must declare the userId and 
+     * count methods.
+     */
+    recordModel.setBoundClass(LangCountBean.class);
+
+    query.setProjection(new String[]{"user.id as userid", "count(1) as count"});
+    
+    RecordModel languagesRecordModel = new RecordModel(...);
+    
+    /**
+    * Conditions class provides: innerJoin, leftJoin, rightJoin, leftOuterJoin and rightOuterJoin.
+    * If you need to add more than one join, you have to call query.join(...) and will be added in the query join list.
+    *
+    * This is an example to get the count of languages of every users.
+    */
+    query.join(Conditions.innerJoin(languagesRecordModel, "lang", "user.id = lang.userid"));
+
+    /**
+    * The Join Clause could be executed using a selection
+    */
+    query.add(Conditions.greaterThan("user.age", 25));
+    
+    /**
+    * You can group the results to use sum, count, avg, etc.
+    */
+    query.groupBy("user.id");
+
+    RecordResults<JoinResultBean> results = query.list();
+    if (results.getFastReturnedSize() > 0) {
+        JoinResultBean bean = results.getRecords().get(0);
+
+        // Code here to maniulate the results
+    }
+} catch (DynamicloudProviderException ignore) {
 }
 ```
 
