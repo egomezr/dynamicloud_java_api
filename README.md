@@ -40,7 +40,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
-  - [Join clause](#Join-clause)
+  - [Join clause](#join-clause)
   - [Order by](#order-by)
   - [Group by and Projection](#group-by-and-projection)
   - [Functions as a Projection](#functions-as-a-projection)
