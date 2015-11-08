@@ -348,7 +348,10 @@ With Join Clause you can execute conditions and involve more than one model.  Th
 ```java
 DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
 
-Query<JoinResultBean> query = provider.createQuery(recordModel);
+/**
+* Query has the main model 'user'
+*/
+Query<JoinResultBean> query = provider.createQuery(userModel);
 
 try {
     /**
@@ -364,6 +367,9 @@ try {
 
     query.setProjection(new String[]{"user.id as userid", "count(1) as count"});
     
+    /**
+    * This is the model 'languages' to join with model 'user'
+    */
     RecordModel languagesRecordModel = new RecordModel(...);
     
     /**
