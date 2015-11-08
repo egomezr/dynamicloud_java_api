@@ -1,6 +1,6 @@
 # Blog Test
 
-This example is a test case to show how to use the Dynamicloud Java API.  The example is an interactive program that will ask the actions to create, list and delete records.
+This example is a test case to show how to use the Dynamicloud Java API.  The example is an interactive (REPL) program that will ask the actions to create, list and delete records.
 
 **Models that you need to create to test this example:**
 
