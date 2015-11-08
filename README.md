@@ -12,8 +12,8 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
 - **Release tag 'v1.0.1-beta'**
 - **Dependencies information is in lib folder**
   - commons-logging 1.2.1.1 or later
-  - HttpComponents or later
-    - fluent-hc 4.5 or later 
+  - HttpComponents 4.x or later
+    - fluent-hc 4.5
     - httpclient 4.5
     - httpclient-cache-4.5
     - httpclient-win-4.5
