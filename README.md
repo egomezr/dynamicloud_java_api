@@ -340,7 +340,7 @@ try {
     if (results.getFastReturnedSize() > 0) {
         JoinResultBean bean = results.getRecords().get(0);
 
-        // Code here to maniulate the results
+        // Code here to manipulate the results
     }
 } catch (DynamicloudProviderException ignore) {
 }
