@@ -564,8 +564,8 @@ public class TestApi extends TestCase {
             if (results.getFastReturnedSize() > 0) {
                 JoinResultBean bean = results.getRecords().get(0);
 
-                assertEquals("bra", bean.getCountry());
-                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+                assertEquals("us", bean.getCountry());
+                assertEquals("2015-09-15", bean.getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
