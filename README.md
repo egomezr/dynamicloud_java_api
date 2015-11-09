@@ -1,16 +1,24 @@
-# Dynamicloud Java API v1.0.0 (BETA)
+# Dynamicloud Java API v1.0.1 (BETA)
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
 ####**If you want to test Dynamicloud as a beta tester, please send an email to: social@dynamicloud.org with your Name and Country.**
 
 #Requirements
 
-Java JDK 7 and later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java")
+Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java")
 
 #Main files
 
-- **Release tag 'v1.0.0-beta'**
+- **Release tag 'v1.0.1-beta'**
 - **Dependencies information is in lib folder**
+  - commons-logging 1.2.1.1 or later
+  - HttpComponents 4.x or later
+    - fluent-hc 4.5
+    - httpclient 4.5
+    - httpclient-cache-4.5
+    - httpclient-win-4.5
+    - httpcore-4.4.1
+  - lg4j 1.2.17 or later
 - **example/blog-test**
 
 #Javadoc
@@ -31,6 +39,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   1. [RecordResults](#recordresults)
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
+  - [Join clause](#join-clause)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - [Order by](#order-by)
   - [Group by and Projection](#group-by-and-projection)
@@ -175,6 +184,7 @@ This class provides a set of methods to add conditions, order by and group by cl
 
 ```java
 public Query add(Condition condition);
+public Query join(Condition condition);
 public Query asc();
 public Query desc();
 public Query setCount(int count);
@@ -239,6 +249,11 @@ public static Condition greaterEquals(String left, Object right);
 public static Condition greaterThan(String left, Object right);
 public static Condition lesserThan(String left, Object right);
 public static Condition lesserEquals(String left, Object right);
+public static JoinClause leftJoin(RecordModel model, String alias, String Condition);
+public static JoinClause leftOuterJoin(RecordModel model, String alias, String Condition);
+public static JoinClause rightJoin(RecordModel model, String alias, String Condition);
+public static JoinClause rightOuterJoin(RecordModel model, String alias, String Condition);
+public static JoinClause innerJoin(RecordModel model, String alias, String Condition);
 
 ```
 
@@ -269,6 +284,67 @@ These two calls of add method will produce something like this:
 name like 'Eleazar%' **AND** age = 33
 
 Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
+
+#Join Clause
+
+With Join Clause you can execute conditions and involve more than one model.  This is useful in situations when you need to compare data between two or more models and get information in one execution.
+
+**A Join Clause is composed by: Model, Type, Alias and ON condition:**
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+/**
+* Query has the main model 'user'
+*/
+Query<JoinResultBean> query = provider.createQuery(userModel);
+
+try {
+    /**
+     * This is the alias to recordModel, this alias is necessary to use JoinClause
+     */
+    query.setAlias("user");
+
+    /**
+     * It is important the receptor bean to attach the results to it.  In this exemple, this bean must declare the userId and 
+     * count methods.
+     */
+    recordModel.setBoundClass(LangCountBean.class);
+
+    query.setProjection(new String[]{"user.id as userid", "count(1) as count"});
+    
+    /**
+    * This is the model 'languages' to join with model 'user'
+    */
+    RecordModel languagesRecordModel = new RecordModel(...);
+    
+    /**
+    * Conditions class provides: innerJoin, leftJoin, rightJoin, leftOuterJoin and rightOuterJoin.
+    * If you need to add more than one join, you have to call query.join(...) and will be added in the query join list.
+    *
+    * This is an example to get the count of languages of every user.
+    */
+    query.join(Conditions.innerJoin(languagesRecordModel, "lang", "user.id = lang.userid"));
+
+    /**
+    * The Join Clause could be executed using a selection
+    */
+    query.add(Conditions.greaterThan("user.age", 25));
+    
+    /**
+    * You can group the results to use sum, count, avg, etc.
+    */
+    query.groupBy("user.id");
+
+    RecordResults<JoinResultBean> results = query.list();
+    if (results.getFastReturnedSize() > 0) {
+        JoinResultBean bean = results.getRecords().get(0);
+
+        // Code here to manipulate the results
+    }
+} catch (DynamicloudProviderException ignore) {
+}
+```
 
 #Next, Offset and Count methods
 
