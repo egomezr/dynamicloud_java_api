@@ -184,6 +184,7 @@ This class provides a set of methods to add conditions, order by and group by cl
 
 ```java
 public Query add(Condition condition);
+public Query setAlias(String alias);
 public Query join(Condition condition);
 public Query asc();
 public Query desc();
