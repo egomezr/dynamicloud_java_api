@@ -18,7 +18,7 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
     - httpclient-cache-4.5
     - httpclient-win-4.5
     - httpcore-4.4.1
-  - lg4j 1.2.17 or later
+  - log4j 1.2.17 or later
 - **example/blog-test**
 
 #Javadoc
