@@ -23,7 +23,7 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
 
 #Javadoc
 
-To read the Java API documentation click [here](http://beta.dynamicloud.org/javadocs/index.html "Dynamicloud Java API documentation")
+To read the Java API documentation click [here](http://www.dynamicloud.org/javadocs/index.html "Dynamicloud Java API documentation")
 
 # Getting started
 
