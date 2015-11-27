@@ -18,9 +18,9 @@ import java.util.List;
  * @since 10/29/15
  **/
 public class BlogManager {
-    public static final long USER_MODEL_ID = 980190977L;
-    public static final long BLOG_MODEL_ID = 980190978L;
-    public static final long POST_MODEL_ID = 980190979L;
+    public static final long USER_MODEL_ID = -1L;
+    public static final long BLOG_MODEL_ID = -1L;
+    public static final long POST_MODEL_ID = -1L;
 
     private static final String CSK = "csk#...";
     private static final String ACI = "aci#...";
