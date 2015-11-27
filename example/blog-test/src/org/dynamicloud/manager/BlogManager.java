@@ -26,7 +26,7 @@ public class BlogManager {
     private static final String ACI = "aci#...";
 
     /**
-     * This method saves a user in Dynamicloud
+     * This method saves an user in Dynamicloud
      *
      * @param user user to save
      */
@@ -47,7 +47,7 @@ public class BlogManager {
     }
 
     /**
-     * Deletes a user using uid (User ID)
+     * Deletes an user using uid (User ID)
      *
      * @param uid user ID
      */
