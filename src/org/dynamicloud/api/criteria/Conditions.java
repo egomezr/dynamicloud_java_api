@@ -9,7 +9,7 @@ import org.dynamicloud.api.model.RecordModel;
  * @author Eleazar Gomez
  * @version 1.0.0
  * @since 8/22/15
- **/
+ */
 public class Conditions {
 
     public static final Condition ROOT = new Condition() {
@@ -297,6 +297,70 @@ public class Conditions {
      */
     public static JoinClause innerJoin(RecordModel model, String alias, String Condition) {
         return new JoinClause(JoinType.INNER, model, alias, Condition);
+    }
+
+    public static Condition between(String field, Object left, Object right) {
+        return new BetweenCondition(field, left, right);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @return a new existance of ExistsCondition
+     */
+    public static ExistsCondition exists() {
+        return new ExistsCondition(null, null, false);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @param model record model
+     * @param alias alias to this model (optional)
+     * @return a new instance of ExistsCondition
+     */
+    public static ExistsCondition exists(RecordModel model, String alias) {
+        return new ExistsCondition(model, alias, false);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @param model record model
+     * @return a new instance of ExistsCondition
+     */
+    public static ExistsCondition exists(RecordModel model) {
+        return new ExistsCondition(model, null, false);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @return a new existance of ExistsCondition
+     */
+    public static ExistsCondition notExists() {
+        return new ExistsCondition(null, null, true);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @param model record model
+     * @param alias alias to this model (optional)
+     * @return a new instance of ExistsCondition
+     */
+    public static ExistsCondition notExists(RecordModel model, String alias) {
+        return new ExistsCondition(model, alias, true);
+    }
+
+    /**
+     * Creates a new instance of ExistsCondition
+     *
+     * @param model record model
+     * @return a new instance of ExistsCondition
+     */
+    public static ExistsCondition notExists(RecordModel model) {
+        return new ExistsCondition(model, null, true);
     }
 
     /**

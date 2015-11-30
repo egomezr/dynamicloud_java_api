@@ -6,10 +6,12 @@ import org.dynamicloud.api.criteria.*;
 import org.dynamicloud.api.model.RecordField;
 import org.dynamicloud.api.model.RecordModel;
 import org.dynamicloud.exception.DynamicloudProviderException;
+import org.dynamicloud.junit.bean.DateBean;
 import org.dynamicloud.junit.bean.JoinResultBean;
 import org.dynamicloud.junit.bean.ModelFields;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -19,12 +21,14 @@ import java.util.List;
  **/
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class TestApi extends TestCase {
-    public static final String CSK = "csk#f66d45541a562558c1854b79cf9cc0c7a4c5c209";
-    public static final String ACI = "aci#12ea40b29cbbc6a90289838d7e800be3fe8f9868";
-    private final static String FILE_PATH = "/Users/egomezr/Documents/upload.sql";
-    private final static String TEST_CASE_FILE = "/Users/egomezr/Documents/TEST_CASE_FILE.sql";
-    private static long modelId = 980190974;
-    private static long auxModelId = 980190972;
+    public static final String CSK = "csk#...";
+    public static final String ACI = "aci#...";
+    private final static String FILE_PATH = "/file.sql";
+    private final static String TEST_CASE_FILE = "/test_file.sql";
+    private static long modelId = -1;
+    private static long auxModelId = -1;
+    private static long dateModelId = -1;
+
     private static RecordModel recordModel = new RecordModel(modelId);
     private static RecordModel auxRecordModel = new RecordModel(auxModelId);
     private static DynamicProvider<ModelFields> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
@@ -289,6 +293,20 @@ public class TestApi extends TestCase {
             }
 
             assertEquals(null, instance);
+
+            DateBean bean = new DateBean();
+            bean.setDate(new Date(System.currentTimeMillis()));
+
+            DynamicProvider<DateBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+            provider.saveRecord(new RecordModel(dateModelId), bean);
+
+            assertNotNull(bean.getRecordId());
+
+            DateBean dateBean = provider.loadRecord(bean.getRecordId().longValue(), new RecordModel(dateModelId), DateBean.class);
+
+            assertNotNull(dateBean.getDate());
+
+            provider.deleteRecord(new RecordModel(dateModelId), bean.getRecordId().longValue());
         } catch (DynamicloudProviderException e) {
             fail(e.getMessage());
         }
@@ -564,12 +582,128 @@ public class TestApi extends TestCase {
             if (results.getFastReturnedSize() > 0) {
                 JoinResultBean bean = results.getRecords().get(0);
 
-                assertEquals("us", bean.getCountry());
-                assertEquals("2015-09-15", bean.getBirthDate());
+                assertEquals("bra", bean.getCountry());
+                assertEquals("2015-11-11", bean.getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
 
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testExists() {
+        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query query = provider.createQuery(new RecordModel(modelId));
+
+        /**
+         * This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+         */
+        query.setAlias("user");
+
+        ExistsCondition exists = Conditions.exists(auxRecordModel, "aux");
+
+        /**
+         * The dollar symbols are to avoid to use right part as a String
+         */
+        exists.add(Conditions.notEquals("user.id", "$aux.modelid$"));
+
+        query.add(exists);
+
+        try {
+            RecordResults results = query.list();
+            assertTrue(results.getFastReturnedSize() == 2);
+            assertFalse(results.getRecords().isEmpty());
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testExistsJoin() {
+        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query query = provider.createQuery(new RecordModel(modelId));
+
+        /**
+         * This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+         */
+        query.setAlias("user");
+
+        ExistsCondition exists = Conditions.exists(auxRecordModel, "aux");
+        exists.join(Conditions.innerJoin(auxRecordModel, "auxx", "aux.id = auxx.modelid"));
+
+        /**
+         * The dollar symbols are to avoid to use right part as a String
+         */
+        exists.add(Conditions.notEquals("user.id", "$aux.modelid$"));
+
+        query.add(exists);
+
+        try {
+            RecordResults results = query.list();
+            assertTrue(results.getFastReturnedSize() == 2);
+            assertFalse(results.getRecords().isEmpty());
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testNotExists() {
+        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        Query query = provider.createQuery(new RecordModel(modelId));
+
+        /**
+         * This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+         */
+        query.setAlias("user");
+
+        ExistsCondition exists = Conditions.notExists(auxRecordModel, "aux");
+
+        /**
+         * The dollar symbol is to avoid to use right part as a String
+         */
+        exists.add(Conditions.equals("user.id", "$aux.modelid$"));
+
+        query.add(exists);
+
+        try {
+            RecordResults results = query.list();
+
+            assertTrue(results.getFastReturnedSize() == 0);
+            assertTrue(results.getRecords().isEmpty());
+        } catch (DynamicloudProviderException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    public void testBetween() {
+        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        try {
+            Query query = provider.createQuery(new RecordModel(modelId));
+            query.add(Conditions.between("agefield", 20, 25));
+
+            RecordResults results = query.list();
+
+            assertTrue(results.getFastReturnedSize() == 1);
+            Record record = (RecordImpl) results.getRecords().get(0);
+
+            assertNotNull(record);
+
+            query = provider.createQuery(new RecordModel(dateModelId));
+            query.add(Conditions.between("datefie", "2015-11-28 00:00:00", "2015-11-28 23:59:59"));
+
+            results = query.list();
+
+            assertTrue(results.getFastReturnedSize() > 1);
+            record = (RecordImpl) results.getRecords().get(0);
+
+            assertNotNull(record);
+
+            query = provider.createQuery(new RecordModel(dateModelId));
+            query.add(Conditions.between("datefie", "2015-11-28 01:00:00", "2015-11-28 23:59:59"));
+
+            results = query.list();
+            assertTrue(results.getFastReturnedSize() == 0);
         } catch (DynamicloudProviderException e) {
             fail(e.getMessage());
         }

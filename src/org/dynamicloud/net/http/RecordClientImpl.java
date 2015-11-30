@@ -197,8 +197,9 @@ public class RecordClientImpl implements RecordClient {
                 addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8").
                 addHeader("Origin", "Dynamicloud://API").
                 addHeader("Accept-Encoding", "gzip, deflate").
+                addHeader("Dynamicloud_API", "Java").
                 addHeader("User-Agent", DYNAMICLOUD_CLIENT).
-                addHeader("Version", ConfigurationProperties.getInstance().
+                addHeader("API_Version", ConfigurationProperties.getInstance().
                         getProperty(ConfigurationProperties.VERSION));
 
         if (method != HttpMethod.DELETE && method != HttpMethod.GET) {

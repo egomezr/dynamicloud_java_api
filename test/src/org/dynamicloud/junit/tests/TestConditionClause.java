@@ -148,6 +148,68 @@ public class TestConditionClause extends TestCase {
         assertEquals("{ \"type\": \"right\", \"alias\": \"user\", \"target\": \"234\", \"on\": \"user.id != id\" }", join.toRecordString(Conditions.ROOT));
     }
 
+    public void testBetweenCondition() {
+        Condition condition = Conditions.between("age", 20, 40);
+
+        assertEquals("\"age\": { \"$between\": [20,40]}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.between("date", "2015-11-01 00:00:00", "2015-11-01 23:59:59");
+
+        assertEquals("\"date\": { \"$between\": [\"2015-11-01 00:00:00\",\"2015-11-01 23:59:59\"]}", condition.toRecordString(Conditions.ROOT));
+    }
+
+    public void testExistsCondition() {
+        ExistsCondition condition = Conditions.exists(new RecordModel(1455545L), "inner");
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$exists\": { \"joins\": [], \"model\": 1455545, \"alias\": \"inner\", \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.exists(new RecordModel(1455545L));
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$exists\": { \"joins\": [], \"model\": 1455545, \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.exists();
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$exists\": { \"joins\": [], \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.exists();
+        condition.add(Conditions.equals("inner.user_id", "$vip.user_id$"));
+
+        ExistsCondition innerCondition = Conditions.exists(new RecordModel(54545L), "inner2");
+        innerCondition.add(Conditions.equals("inner2.user_id", "$vip2.user_id$"));
+
+        condition.add(innerCondition);
+
+        assertEquals("\"$exists\": { \"joins\": [], \"where\": {\"inner.user_id\" : \"$vip.user_id$\",\"$exists\": { \"joins\": [], \"model\": 54545, \"alias\": \"inner2\", \"where\": {\"inner2.user_id\" : \"$vip2.user_id$\"}}}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.notExists(new RecordModel(1455545L), "inner");
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$nexists\": { \"joins\": [], \"model\": 1455545, \"alias\": \"inner\", \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.notExists(new RecordModel(1455545L));
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$nexists\": { \"joins\": [], \"model\": 1455545, \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.notExists();
+        condition.add(Conditions.equals("inner.user_id", "vip.user_id"));
+
+        assertEquals("\"$nexists\": { \"joins\": [], \"where\": {\"inner.user_id\" : \"vip.user_id\"}}", condition.toRecordString(Conditions.ROOT));
+
+        condition = Conditions.notExists();
+        condition.add(Conditions.equals("inner.user_id", "$vip.user_id$"));
+
+        innerCondition = Conditions.notExists(new RecordModel(54545L), "inner2");
+        innerCondition.add(Conditions.equals("inner2.user_id", "$vip2.user_id$"));
+
+        condition.add(innerCondition);
+
+        assertEquals("\"$nexists\": { \"joins\": [], \"where\": {\"inner.user_id\" : \"$vip.user_id$\",\"$nexists\": { \"joins\": [], \"model\": 54545, \"alias\": \"inner2\", \"where\": {\"inner2.user_id\" : \"$vip2.user_id$\"}}}}", condition.toRecordString(Conditions.ROOT));
+    }
+
     public void testDynamicUtil() {
         ModelFields instance = new ModelFields();
         instance.setName("Eleazar");

@@ -12,6 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +33,8 @@ public class DynamiCloudUtil {
     public static final String SIZE = "size";
     public static final String GET = "get";
     private static final LoggerTool logger = LoggerTool.getLogger(DynamiCloudUtil.class);
+    public static final String DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
+    private static SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
     /**
      * This utility will build a RecordResults object
@@ -134,7 +139,28 @@ public class DynamiCloudUtil {
             if (method == null) {
                 logger.warn("Bound method with " + key + " wasn't found.");
             } else {
-                method.invoke(r, value);
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length == 1) {
+                    /**
+                     * Check date, datetime and timestamp types
+                     */
+                    Class<?> parameterType = parameterTypes[0];
+
+                    if (parameterType.isAssignableFrom(java.util.Date.class)) {
+                        Date date = df.parse(value);
+                        method.invoke(r, date);
+                    } else if (parameterType.isAssignableFrom(java.sql.Timestamp.class)) {
+                        Date date = df.parse(value);
+                        method.invoke(r, new Timestamp(date.getTime()));
+                    } else if (parameterType.isAssignableFrom(java.sql.Date.class)) {
+                        Date date = df.parse(value);
+                        method.invoke(r, new java.sql.Date(date.getTime()));
+                    } else {
+                        method.invoke(r, value);
+                    }
+                } else {
+                    logger.warn("Bound method with " + key + " wasn't found.");
+                }
             }
         } catch (Exception e) {
             logger.warn("Bound method with " + key + " wasn't found cause this error (" + e.getMessage() + ").");
@@ -306,6 +332,8 @@ public class DynamiCloudUtil {
                         }
 
                         json.put(fieldName, array);
+                    } else if (result instanceof Date) {
+                        json.put(fieldName, df.format((Date) result));
                     } else if (result != null) {
                         json.put(fieldName, result.toString());
                     }
@@ -402,7 +430,7 @@ public class DynamiCloudUtil {
     public static String buildString(List<Condition> conditions, GroupByClause groupBy, OrderByClause orderBy,
                                      String projection, String alias, List<JoinClause> joins) throws DynamicloudProviderException {
 
-        String built = "{" + (alias == null ? "" : "\"alias\": \"" + alias + "\",") + buildJoinTag(joins)  +
+        String built = "{" + (alias == null ? "" : "\"alias\": \"" + alias + "\",") + buildJoinTag(joins) +
                 (StringUtils.isEmpty(projection) ? "" : (", " + projection)) + ", \"where\": {";
 
         if (conditions.size() > 0) {

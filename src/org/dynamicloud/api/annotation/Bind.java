@@ -16,5 +16,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface Bind {
+    /**
+     * Bound field
+     * @return the bound field
+     */
     String field();
 }
