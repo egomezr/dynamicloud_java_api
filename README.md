@@ -131,7 +131,10 @@ ModelField instance = new ModelField();
 instance.setEmail("email@dynamicloud.org");
 instance.setName("Eleazar");
 instance.setLastName("Gómez");
-instance.setBirthdate("1982-05-21");
+/**
+ * You can set Date, Timestamp or sql.Date object
+ */
+instance.setBirthdate(new Date());
 
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
 
