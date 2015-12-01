@@ -246,6 +246,13 @@ public static Condition notLike(String left, String like);
 public static Condition equals(String left, String right);
 public static Condition equals(String left, Number right);
 public static Condition equals(String left, Character right);
+public static Condition between(String field, Object left, Object right);
+public static ExistsCondition exists();
+public static ExistsCondition exists(RecordModel model, String alias);
+public static ExistsCondition exists(RecordModel model);
+public static ExistsCondition notExists();
+public static ExistsCondition notExists(RecordModel model, String alias);
+public static ExistsCondition notExists(RecordModel model);
 public static Condition notEquals(String left, Object right);
 public static Condition greaterEquals(String left, Object right);
 public static Condition greaterThan(String left, Object right);
@@ -286,6 +293,145 @@ These two calls of add method will produce something like this:
 name like 'Eleazar%' **AND** age = 33
 
 Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
+
+#Between condition
+
+With this condition you can build selections like **age between 24 and 30** or **birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'**.
+
+**A Between condition is composed by: field's identifier and an interval (left and right)**
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query query = provider.createQuery(new RecordModel(modelId));
+query.add(Conditions.between("agefield", 20, 25));
+
+RecordResults results = query.list();
+.
+.
+.
+```
+
+**Using dates:**
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query query = provider.createQuery(new RecordModel(modelId));
+query.add(Conditions.between("birthdate", "2010-01-01 00:00:00", "2015-11-01 23:59:59"));
+
+RecordResults results = query.list();
+.
+.
+.
+```
+
+#Exists condition
+
+Exists condition is a way to execute correlated queries and get results if a specific condition is true.  For example, imagine the following SQL query:
+
+```sql
+-- Here we want to get the VIP users
+SELECT * FROM users u WHERE EXISTS (SELECT * FROM vip_users v WHERE v.user_id = u.id)
+```
+
+**Let's do it using Dynamicloud's library:**
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query query = provider.createQuery(userModel);
+
+/**
+* This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+*/
+query.setAlias("u");
+
+ExistsCondition exists = Conditions.exists(vipmodel, "v");
+
+/**
+* The dollar symbols are to avoid to use right part as a String, but literally v.user_id = u.id
+*/
+exists.add(Conditions.equals("v.user_id", "$u.id$"));
+
+query.add(exists);
+
+try {
+  RecordResults results = query.list();
+  .
+  .
+  .
+} catch (DynamicloudProviderException e) {
+  //Oops!! What's wrong mister e?
+}
+```
+
+**If you want to get the users without vip label:**
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query query = provider.createQuery(userModel);
+
+/**
+* This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+*/
+query.setAlias("u");
+
+ExistsCondition exists = Conditions.notExists(vipmodel, "v");
+
+/**
+* The dollar symbols are to avoid to use right part as a String, but literally v.user_id = u.id
+*/
+exists.add(Conditions.equals("v.user_id", "$u.id$"));
+
+query.add(exists);
+
+try {
+  RecordResults results = query.list();
+  .
+  .
+  .
+} catch (DynamicloudProviderException e) {
+  //Oops!! What's wrong mister e?
+}
+```
+
+**Another capability in Exists condition is the JoinClauses to execute correlated queries with Joins, for example:**
+```sql
+SELECT * FROM users u WHERE EXISTS (SELECT * FROM vip_users v JOIN vip_country c ON c.vip_id = v.id WHERE v.user_id = u.id AND c.country_iso = 'BR')
+```
+
+```java
+DynamicProvider<LangCountBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+
+Query query = provider.createQuery(userModel);
+
+/**
+* This is the alias to recordModel, this alias is necessary if you need to execute an exists using two models
+*/
+query.setAlias("u");
+
+ExistsCondition exists = Conditions.exists(vipmodel, "v");
+
+exists.join(Conditions.innerJoin(countryModel, "c", "c.vip_id = v.id"));
+
+/**
+* The dollar symbols are to avoid to use right part as a String, but literally v.user_id = u.id
+*/
+exists.add(Conditions.and(Conditions.equals("v.user_id", "$u.id$"), Conditions.equals("c.country_iso", "BR")));
+
+query.add(exists);
+
+try {
+  RecordResults results = query.list();
+  .
+  .
+  .
+} catch (DynamicloudProviderException e) {
+  //Oops!! What's wrong mister e?
+}
+```
 
 #Join Clause
 
