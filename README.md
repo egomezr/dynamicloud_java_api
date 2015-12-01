@@ -40,6 +40,8 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
   1. [RecordResults](#recordresults)
   - [Condition](#conditions-class)
   - [Conditions](#conditions-class)
+  - [Between condition](#between-condition)
+  - [Exists condition](#exists-condition)
   - [Join clause](#join-clause)
   - [Next, Offset and Count methods](#next-offset-and-count-methods)
   - [Order by](#order-by)
