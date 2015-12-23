@@ -96,41 +96,6 @@ public interface DynamicProvider<T> {
     List<RecordField> loadFields(Long mid) throws DynamicloudProviderException;
 
     /**
-     * Uploads a file in record <b>rid</b>
-     *
-     * @param modelId       owner model id of this record <b>rid<b/>
-     * @param recordId      record id
-     * @param fieldName     fieldName target
-     * @param file          file to upload
-     * @param contentType   contentType of this file
-     * @param preferredName preferred name to later downloads
-     */
-    void uploadFile(Long modelId, Long recordId, String fieldName, File file, String contentType, String preferredName)
-            throws DynamicloudProviderException;
-
-    /**
-     * This method will make a request to generate a link to download the file related to this recordId and fieldName
-     *
-     * @param modelId   model id
-     * @param recordId  record id
-     * @param fieldName field name
-     * @return link to download file
-     * @throws DynamicloudProviderException if any error occurs
-     */
-    String shareFile(Long modelId, Long recordId, String fieldName) throws DynamicloudProviderException;
-
-    /**
-     * Downloads a file according <b>rid</b> and <b>fieldName</b>
-     *
-     * @param modelId   owner model id of this record <b>rid<b/>
-     * @param recordId  record id
-     * @param fieldName fieldName target
-     * @param destiny   destiny file
-     * @throws DynamicloudProviderException if any error occurs
-     */
-    void downloadFile(Long modelId, Long recordId, String fieldName, File destiny) throws DynamicloudProviderException;
-
-    /**
      * Set the bound instance to get the fields and values that will used to update records
      *
      * @param boundInstance bondInstance with values

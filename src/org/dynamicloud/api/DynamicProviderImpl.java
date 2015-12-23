@@ -12,7 +12,6 @@ import org.dynamicloud.util.ConfigurationProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -330,116 +329,6 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
             }
 
             return fields;
-        } catch (Exception e) {
-            throw new DynamicloudProviderException(e.getMessage());
-        }
-    }
-
-    /**
-     * Uploads a file in record <b>rid</b>
-     *
-     * @param modelId       owner model id of this record <b>rid<b/>
-     * @param recordId      record id
-     * @param fieldName     fieldName target
-     * @param file          file to upload
-     * @param contentType   contentType of this file
-     * @param preferredName preferred name to later downloads
-     */
-    public void uploadFile(Long modelId, Long recordId, String fieldName, File file, String contentType, String preferredName)
-            throws DynamicloudProviderException {
-        String url = ConfigurationProperties.getInstance().getProperty("url");
-        String urlGetRecords = ConfigurationProperties.getInstance().getProperty("url.upload.file");
-
-        try {
-            urlGetRecords = url + urlGetRecords.replaceAll("\\{csk}", URLEncoder.encode(credentials.getCsk(), "UTF-8")).
-                    replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
-            urlGetRecords = urlGetRecords.replaceAll("\\{mid}", modelId.toString()).
-                    replaceAll("\\{rid}", recordId.toString());
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("pickedFileName", file.getName());
-            params.put("file_type", contentType);
-            params.put("file_name", preferredName);
-            params.put("identifier", fieldName);
-
-            ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, params, file, false);
-
-            JSONObject json = new JSONObject(serviceResponse.getResponse());
-
-            if (json.getLong("status") != 200) {
-                throw new RuntimeException(json.getString("message"));
-            }
-        } catch (Exception e) {
-            throw new DynamicloudProviderException(e.getMessage());
-        }
-    }
-
-    /**
-     * This method will make a request to generate a link to download the file related to this recordId and fieldName
-     *
-     * @param modelId   model id
-     * @param recordId  record id
-     * @param fieldName field name
-     * @return link to share file
-     */
-    public String shareFile(Long modelId, Long recordId, String fieldName) throws DynamicloudProviderException {
-        String url = ConfigurationProperties.getInstance().getProperty("url");
-        String urlGetRecords = ConfigurationProperties.getInstance().getProperty("url.share.file");
-
-        try {
-            urlGetRecords = url + urlGetRecords.replaceAll("\\{csk}", URLEncoder.encode(credentials.getCsk(), "UTF-8")).
-                    replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
-            urlGetRecords = urlGetRecords.replaceAll("\\{mid}", modelId.toString()).
-                    replaceAll("\\{rid}", recordId.toString()).replaceAll("\\{identifier}", fieldName);
-
-            ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, null, HttpMethod.GET);
-
-            JSONObject json = new JSONObject(serviceResponse.getResponse());
-
-            if (json.getLong("status") != 200) {
-                throw new RuntimeException(json.getString("message"));
-            }
-
-            return json.getString("link");
-        } catch (Exception e) {
-            throw new DynamicloudProviderException(e.getMessage());
-        }
-    }
-
-    /**
-     * Downloads a file according <b>rid</b> and <b>fieldName</b>
-     *
-     * @param modelId   owner model id of this record <b>rid<b/>
-     * @param recordId  record id
-     * @param fieldName fieldName target
-     * @param destiny   destiny file.  If this file doesn't exist then will be created
-     */
-    @Override
-    public void downloadFile(Long modelId, Long recordId, String fieldName, File destiny)
-            throws DynamicloudProviderException {
-        String url = ConfigurationProperties.getInstance().getProperty("url");
-        String urlGetRecords = ConfigurationProperties.getInstance().getProperty("url.download.file");
-
-        try {
-            urlGetRecords = url + urlGetRecords.replaceAll("\\{csk}", URLEncoder.encode(credentials.getCsk(), "UTF-8")).
-                    replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
-            urlGetRecords = urlGetRecords.replaceAll("\\{mid}", modelId.toString()).
-                    replaceAll("\\{rid}", recordId.toString()).replaceAll("\\{identifier}", fieldName);
-
-            if (!destiny.exists()) {
-                boolean newFile = destiny.createNewFile();
-                if (!newFile) {
-                    throw new IllegalStateException("It couldn't create the file.");
-                }
-            }
-
-            ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, null, destiny, true);
-
-            JSONObject json = new JSONObject(serviceResponse.getResponse());
-
-            if (json.getLong("status") != 200) {
-                throw new RuntimeException(json.getString("message"));
-            }
         } catch (Exception e) {
             throw new DynamicloudProviderException(e.getMessage());
         }

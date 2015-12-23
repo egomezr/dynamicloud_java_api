@@ -10,7 +10,6 @@ import org.dynamicloud.junit.bean.DateBean;
 import org.dynamicloud.junit.bean.JoinResultBean;
 import org.dynamicloud.junit.bean.ModelFields;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.List;
 
@@ -23,8 +22,6 @@ import java.util.List;
 public class TestApi extends TestCase {
     public static final String CSK = "csk#...";
     public static final String ACI = "aci#...";
-    private final static String FILE_PATH = "/file.sql";
-    private final static String TEST_CASE_FILE = "/test_file.sql";
     private static long modelId = -1;
     private static long auxModelId = -1;
     private static long dateModelId = -1;
@@ -406,28 +403,6 @@ public class TestApi extends TestCase {
             instance = provider.loadRecord(2l, recordModel, ModelFields.class);
 
             assertEquals("01", instance.getPassword()[0]);
-        } catch (DynamicloudProviderException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    public void testShareDownUploadFile() {
-        try {
-            provider.uploadFile(recordModel.getId(), 2l, "photo", new File(FILE_PATH),
-                    "application/text", "ThisIsAnExample.sql");
-
-            String link = provider.shareFile(recordModel.getId(), 2l, "photo");
-
-            assertNotNull(link);
-
-            File file = new File(TEST_CASE_FILE);
-            if (file.exists()) {
-                file.delete();
-            }
-
-            provider.downloadFile(recordModel.getId(), 2l, "photo", file);
-
-            assertTrue(new File(TEST_CASE_FILE).exists());
         } catch (DynamicloudProviderException e) {
             fail(e.getMessage());
         }
