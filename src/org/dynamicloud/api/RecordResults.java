@@ -11,7 +11,7 @@ import java.util.List;
  * @since 8/26/15
  **/
 public class RecordResults<T> {
-    private List<T> records = new LinkedList<>();
+    private List<T> records = new LinkedList<T>();
     private int totalRecords;
     private int fastReturnedSize;
 

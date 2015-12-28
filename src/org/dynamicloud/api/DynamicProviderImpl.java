@@ -103,7 +103,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
 
             String fields = DynamiCloudUtil.buildFieldsJSON((BoundInstance) instance);
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, String> params = new HashMap<String, String>();
             params.put("fields", fields);
 
             ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, params);
@@ -140,7 +140,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
 
             String fields = DynamiCloudUtil.buildFieldsJSON((BoundInstance) instance);
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, String> params = new HashMap<String, String>();
             params.put("fields", fields);
 
             ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, params);
@@ -195,7 +195,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
      */
     @Override
     public Query<T> createQuery(RecordModel recordModel) {
-        RecordQuery<T> recordQuery = new RecordQuery<>(recordModel);
+        RecordQuery<T> recordQuery = new RecordQuery<T>(recordModel);
         recordQuery.setCredentials(credentials);
 
         return recordQuery;
@@ -261,7 +261,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
                 throw new RuntimeException(json.getString("message"));
             }
 
-            List<RecordModel> models = new LinkedList<>();
+            List<RecordModel> models = new LinkedList<RecordModel>();
             JSONArray array = json.getJSONArray("models");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
@@ -307,7 +307,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
 
             JSONObject fs = json.getJSONObject("fields");
 
-            List<RecordField> fields = new LinkedList<>();
+            List<RecordField> fields = new LinkedList<RecordField>();
             Iterator keys = fs.keys();
             while (keys.hasNext()) {
                 String key = (String) keys.next();
@@ -329,6 +329,38 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
             }
 
             return fields;
+        } catch (Exception e) {
+            throw new DynamicloudProviderException(e.getMessage());
+        }
+    }
+
+    /**
+     * This method will make a request to generate a link to download the file related to this recordId and fieldName
+     *
+     * @param modelId   model id
+     * @param recordId  record id
+     * @param fieldName field name
+     * @return link to share file
+     */
+    public String shareFile(Long modelId, Long recordId, String fieldName) throws DynamicloudProviderException {
+        String url = ConfigurationProperties.getInstance().getProperty("url");
+        String urlGetRecords = ConfigurationProperties.getInstance().getProperty("url.share.file");
+
+        try {
+            urlGetRecords = url + urlGetRecords.replaceAll("\\{csk}", URLEncoder.encode(credentials.getCsk(), "UTF-8")).
+                    replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
+            urlGetRecords = urlGetRecords.replaceAll("\\{mid}", modelId.toString()).
+                    replaceAll("\\{rid}", recordId.toString()).replaceAll("\\{identifier}", fieldName);
+
+            ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, null, HttpMethod.GET);
+
+            JSONObject json = new JSONObject(serviceResponse.getResponse());
+
+            if (json.getLong("status") != 200) {
+                throw new RuntimeException(json.getString("message"));
+            }
+
+            return json.getString("link");
         } catch (Exception e) {
             throw new DynamicloudProviderException(e.getMessage());
         }
@@ -377,7 +409,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
                     replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
             urlGetRecords = urlGetRecords.replaceAll("\\{mid}", query.getModel().getId().toString());
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, String> params = new HashMap<String, String>();
             params.put("fields", fields);
             params.put("selection", selection);
 
@@ -413,7 +445,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T> {
                     replaceAll("\\{aci}", URLEncoder.encode(credentials.getAci(), "UTF-8"));
             urlGetRecords = urlGetRecords.replaceAll("\\{mid}", query.getModel().getId().toString());
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, String> params = new HashMap<String, String>();
             params.put("selection", selection);
 
             ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, params);

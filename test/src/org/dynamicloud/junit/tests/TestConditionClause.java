@@ -253,7 +253,11 @@ public class TestConditionClause extends TestCase {
             assertEquals(citieArray[0], ((ModelFields) recordList.get(0)).getCities()[0]);
             assertEquals(citieArray[1], ((ModelFields) recordList.get(0)).getCities()[1]);
             assertEquals(citieArray[2], ((ModelFields) recordList.get(0)).getCities()[2]);
-        } catch (JSONException | IllegalAccessException | InstantiationException e) {
+        } catch (JSONException e) {
+            fail(e.getMessage());
+        } catch (IllegalAccessException e) {
+            fail(e.getMessage());
+        } catch (InstantiationException e) {
             fail(e.getMessage());
         }
 
@@ -270,7 +274,7 @@ public class TestConditionClause extends TestCase {
 
         RecordModel model = new RecordModel(324L);
 
-        List<JoinClause> joins = new LinkedList<>();
+        List<JoinClause> joins = new LinkedList<JoinClause>();
 
         assertEquals("\"joins\": []", DynamiCloudUtil.buildJoinTag(null));
 
@@ -286,13 +290,13 @@ public class TestConditionClause extends TestCase {
 
         assertEquals("\"joins\": [{ \"type\": \"left\", \"alias\": \"user\", \"target\": \"324\", \"on\": \"user.id = id\" }, { \"type\": \"inner\", \"alias\": \"countries\", \"target\": \"325\", \"on\": \"user.id = id\" }]", DynamiCloudUtil.buildJoinTag(joins));
 
-        joins = new LinkedList<>();
+        joins = new LinkedList<JoinClause>();
 
         joins.add(Conditions.leftOuterJoin(model, "user", "user.id = languages.id"));
 
         assertEquals("\"joins\": [{ \"type\": \"left outer\", \"alias\": \"user\", \"target\": \"325\", \"on\": \"user.id = languages.id\" }]", DynamiCloudUtil.buildJoinTag(joins));
 
-        joins = new LinkedList<>();
+        joins = new LinkedList<JoinClause>();
 
         joins.add(Conditions.rightOuterJoin(model, "user", "user.id = languages.id"));
 

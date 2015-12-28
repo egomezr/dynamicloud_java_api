@@ -294,7 +294,7 @@ public class TestApi extends TestCase {
             DateBean bean = new DateBean();
             bean.setDate(new Date(System.currentTimeMillis()));
 
-            DynamicProvider<DateBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+            DynamicProvider<DateBean> provider = new DynamicProviderImpl<DateBean>(new RecordCredential(CSK, ACI));
             provider.saveRecord(new RecordModel(dateModelId), bean);
 
             assertNotNull(bean.getRecordId());
@@ -409,7 +409,7 @@ public class TestApi extends TestCase {
     }
 
     public void testAliasPresenceJoin() {
-        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<JoinResultBean>(new RecordCredential(CSK, ACI));
         Query<JoinResultBean> query = provider.createQuery(recordModel);
 
         try {
@@ -427,7 +427,7 @@ public class TestApi extends TestCase {
     }
 
     public void testInnerJoin() {
-        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<JoinResultBean>(new RecordCredential(CSK, ACI));
         Query<JoinResultBean> query = provider.createQuery(recordModel);
 
         try {
@@ -451,7 +451,7 @@ public class TestApi extends TestCase {
                 JoinResultBean bean = results.getRecords().get(0);
 
                 assertEquals("bra", bean.getCountry());
-                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+                assertEquals("2015-11-11T00:00:00.000Z", results.getRecords().get(0).getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
@@ -462,7 +462,7 @@ public class TestApi extends TestCase {
     }
 
     public void testLeftJoin() {
-        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<JoinResultBean>(new RecordCredential(CSK, ACI));
         Query<JoinResultBean> query = provider.createQuery(recordModel);
 
         try {
@@ -486,7 +486,7 @@ public class TestApi extends TestCase {
                 JoinResultBean bean = results.getRecords().get(0);
 
                 assertEquals("bra", bean.getCountry());
-                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+                assertEquals("2015-11-11T00:00:00.000Z", results.getRecords().get(0).getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
@@ -497,7 +497,7 @@ public class TestApi extends TestCase {
     }
 
     public void testRightJoin() {
-        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<JoinResultBean>(new RecordCredential(CSK, ACI));
         Query<JoinResultBean> query = provider.createQuery(recordModel);
 
         try {
@@ -521,7 +521,7 @@ public class TestApi extends TestCase {
                 JoinResultBean bean = results.getRecords().get(0);
 
                 assertEquals("bra", bean.getCountry());
-                assertEquals("2015-11-11", results.getRecords().get(0).getBirthDate());
+                assertEquals("2015-11-11T00:00:00.000Z", results.getRecords().get(0).getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
@@ -532,7 +532,7 @@ public class TestApi extends TestCase {
     }
 
     public void testJoinAndSelection() {
-        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider<JoinResultBean> provider = new DynamicProviderImpl<JoinResultBean>(new RecordCredential(CSK, ACI));
         Query<JoinResultBean> query = provider.createQuery(recordModel);
 
         try {
@@ -558,7 +558,7 @@ public class TestApi extends TestCase {
                 JoinResultBean bean = results.getRecords().get(0);
 
                 assertEquals("bra", bean.getCountry());
-                assertEquals("2015-11-11", bean.getBirthDate());
+                assertEquals("2015-11-11T00:00:00.000Z", bean.getBirthDate());
             } else {
                 fail("Without results.  That's wrong!");
             }
@@ -569,7 +569,7 @@ public class TestApi extends TestCase {
     }
 
     public void testExists() {
-        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider provider = new DynamicProviderImpl(new RecordCredential(CSK, ACI));
         Query query = provider.createQuery(new RecordModel(modelId));
 
         /**
@@ -596,7 +596,7 @@ public class TestApi extends TestCase {
     }
 
     public void testExistsJoin() {
-        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider provider = new DynamicProviderImpl(new RecordCredential(CSK, ACI));
         Query query = provider.createQuery(new RecordModel(modelId));
 
         /**
@@ -624,7 +624,7 @@ public class TestApi extends TestCase {
     }
 
     public void testNotExists() {
-        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider provider = new DynamicProviderImpl(new RecordCredential(CSK, ACI));
         Query query = provider.createQuery(new RecordModel(modelId));
 
         /**
@@ -652,7 +652,7 @@ public class TestApi extends TestCase {
     }
 
     public void testBetween() {
-        DynamicProvider provider = new DynamicProviderImpl<>(new RecordCredential(CSK, ACI));
+        DynamicProvider provider = new DynamicProviderImpl(new RecordCredential(CSK, ACI));
         try {
             Query query = provider.createQuery(new RecordModel(modelId));
             query.add(Conditions.between("agefield", 20, 25));

@@ -36,19 +36,6 @@ public interface ServiceCaller {
             throws DynamiCloudServiceException;
 
     /**
-     * Will call an upload/download request using the passed file
-     *
-     * @param serviceUrl service url to be called
-     * @param params     parameters
-     * @param file       file to upload/download
-     * @param download indicates if this service will download a file
-     * @return a ServiceResponse from DynamiCloud servers
-     * @throws DynamiCloudServiceException when any error occurred.
-     */
-    public ServiceResponse callService(String serviceUrl, Map<String, String> params, File file, boolean download)
-            throws DynamiCloudServiceException;
-
-    /**
      * Will call a service.
      *
      * @param serviceUrl service url to be called

@@ -34,7 +34,7 @@ public class RecordQuery<T> implements Query<T> {
     private List<JoinClause> joins;
     private String alias;
 
-    private List<Condition> conditions = new LinkedList<>();
+    private List<Condition> conditions = new LinkedList<Condition>();
 
     /**
      * Buils a query using that RecordModel
@@ -43,7 +43,7 @@ public class RecordQuery<T> implements Query<T> {
      */
     public RecordQuery(RecordModel recordModel) {
         this.recordModel = recordModel;
-        this.joins = new LinkedList<>();
+        this.joins = new LinkedList<JoinClause>();
     }
 
     /**
@@ -323,7 +323,7 @@ public class RecordQuery<T> implements Query<T> {
             urlGetRecords = urlGetRecords.replaceAll("\\{count}", String.valueOf(this.getCount()));
             urlGetRecords = urlGetRecords.replaceAll("\\{offset}", String.valueOf(this.getOffset()));
 
-            Map<String, String> params = new HashMap<>();
+            Map<String, String> params = new HashMap<String, String>();
             params.put("criteria", criteria);
             ServiceResponse serviceResponse = ServiceCaller.Impl.getInstance().callService(urlGetRecords, params);
 
@@ -334,6 +334,4 @@ public class RecordQuery<T> implements Query<T> {
             throw new DynamicloudProviderException(e.getMessage());
         }
     }
-
-
 }

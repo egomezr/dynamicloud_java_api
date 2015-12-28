@@ -15,7 +15,7 @@ import java.util.List;
  * @author Eleazar Gomez (EEG)
  */
 public class ExistsCondition implements Condition {
-    private List<Condition> conditions = new LinkedList<>();
+    private List<Condition> conditions = new LinkedList<Condition>();
     private RecordModel model;
     private String alias;
     private boolean not;
@@ -25,7 +25,7 @@ public class ExistsCondition implements Condition {
      * Default constructor
      */
     protected ExistsCondition() {
-        this.joins = new LinkedList<>();
+        this.joins = new LinkedList<JoinClause>();
     }
 
     /**
@@ -38,7 +38,7 @@ public class ExistsCondition implements Condition {
         this.model = model;
         this.alias = alias;
         this.not = not;
-        this.joins = new LinkedList<>();
+        this.joins = new LinkedList<JoinClause>();
     }
 
     /**

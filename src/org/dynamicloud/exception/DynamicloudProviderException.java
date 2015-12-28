@@ -6,8 +6,6 @@ package org.dynamicloud.exception;
  * @since 8/24/15
  **/
 public class DynamicloudProviderException extends Exception {
-    private int lineNumber;
-
     /**
      * Default constructor
      *
@@ -15,11 +13,10 @@ public class DynamicloudProviderException extends Exception {
      */
     public DynamicloudProviderException(String s) {
         super(s);
-        this.lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
     }
 
     @Override
     public String getMessage() {
-        return super.getMessage() + " - Line numer -> " + lineNumber;
+        return super.getMessage();
     }
 }

@@ -53,47 +53,6 @@ public class ServiceCallerImpl implements ServiceCaller {
     }
 
     /**
-     * Will call an upload/download request using the passed file
-     *
-     * @param serviceUrl service url to be called
-     * @param params     parameters
-     * @param file       file to upload/download
-     * @param download indicates if this service will download a file
-     * @return a ServiceResponse from DynamiCloud servers
-     * @throws DynamiCloudServiceException when any error occurred.
-     */
-    public ServiceResponse callService(String serviceUrl, Map<String, String> params, File file, boolean download)
-            throws DynamiCloudServiceException {
-        try {
-            RecordClient client = RecordClient.Impl.getInstance();
-
-            String response;
-
-            if (download) {
-                response = client.downloadFile(new URI(serviceUrl), file,
-                        params == null ? new HashMap<String, String>() : params, HttpMethod.GET);
-            } else {
-                response = client.uploadFile(new URI(serviceUrl), file,
-                        params == null ? new HashMap<String, String>() : params);
-            }
-
-            try {
-                new JSONObject(response);
-            } catch (Exception e) {
-                throw new DynamiCloudServiceException("Invalid response from server.");
-            }
-
-            if (response == null) {
-                throw new DynamiCloudServiceException("Response is null");
-            } else {
-                return new ServiceResponse(response);
-            }
-        } catch (Exception e) {
-            throw new DynamiCloudServiceException(e.getMessage());
-        }
-    }
-
-    /**
      * Will call a service.
      *
      * @param serviceUrl service url to be called

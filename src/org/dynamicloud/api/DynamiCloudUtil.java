@@ -34,7 +34,7 @@ public class DynamiCloudUtil {
     public static final String GET = "get";
     private static final LoggerTool logger = LoggerTool.getLogger(DynamiCloudUtil.class);
     public static final String DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
-    private static SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+    public static SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
     /**
      * This utility will build a RecordResults object
@@ -44,7 +44,7 @@ public class DynamiCloudUtil {
      * @return RecordResults object
      */
     public static RecordResults buildRecordResults(ServiceResponse response, Class boundClass) {
-        RecordResults<Object> results = new RecordResults<>();
+        RecordResults<Object> results = new RecordResults<Object>();
         try {
 
             JSONObject json = new JSONObject(response.getResponse());
@@ -76,7 +76,7 @@ public class DynamiCloudUtil {
      */
     public static List<Object> getRecordList(JSONObject data, Class boundClass)
             throws JSONException, IllegalAccessException, InstantiationException {
-        List<Object> recordsList = new LinkedList<>();
+        List<Object> recordsList = new LinkedList<Object>();
 
         JSONArray records = data.getJSONArray(RECORDS);
         for (int i = 0; i < records.length(); i++) {
@@ -264,7 +264,7 @@ public class DynamiCloudUtil {
      * @return list of records
      */
     private static List<Object> getRecordList(JSONObject data) throws JSONException {
-        List<Object> recordsList = new LinkedList<>();
+        List<Object> recordsList = new LinkedList<Object>();
 
         JSONArray records = data.getJSONArray(RECORDS);
         for (int i = 0; i < records.length(); i++) {
