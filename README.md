@@ -234,7 +234,7 @@ for (ModelField item : results.getRecords()) {
 
 #Conditions class
 
-This class provides a set of methods to build conditions and add them in query object
+This class provides a set of methods to build conditions and add them to query object
 ```java
 public static Condition and(Condition left, Condition right);
 public static Condition or(Condition left, Condition right);
