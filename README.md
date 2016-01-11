@@ -3,7 +3,7 @@ This Java API  helps you to use the power of Dynamicloud.  This API follows our 
 
 #Requirements
 
-Java JDK 6 or later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java")
+Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java")
 
 #Main files
 
