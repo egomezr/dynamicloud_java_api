@@ -22,7 +22,7 @@ public interface Query<T> {
      *
      * @return this instance of Query
      */
-    Query desc();
+    Query<T> desc();
 
     /**
      * Apply a asc ordering to the current order by object
@@ -30,7 +30,7 @@ public interface Query<T> {
      *
      * @return this instance of Query
      */
-    Query asc();
+    Query<T> asc();
 
     /**
      * Attaches a alias to this query, the model in this query will use this alias in Join Clauses or whatever situation where alias is needed.
@@ -38,7 +38,7 @@ public interface Query<T> {
      * @param alias alias to attach
      * @return this instance of Query
      */
-    Query setAlias(String alias);
+    Query<T> setAlias(String alias);
 
     /**
      * This method will add a new condition to an AND list of conditions.
@@ -46,7 +46,7 @@ public interface Query<T> {
      * @param condition new condition to a list of conditions to use
      * @return this instance of Query
      */
-    Query add(Condition condition);
+    Query<T> add(Condition condition);
 
     /**
      * This method sets the projection to use in this query.  The query execution will return those projection.
@@ -55,7 +55,7 @@ public interface Query<T> {
      * @param projection projection in this query
      * @return this instance of Query
      */
-    Query setProjection(String[] projection);
+    Query<T> setProjection(String[] projection);
 
     /**
      * This method sets the projection to use in this query
@@ -64,7 +64,7 @@ public interface Query<T> {
      * @param projection projection in this query
      * @return this instance of Query
      */
-    Query setProjection(String projection);
+    Query<T> setProjection(String projection);
 
     /**
      * Sets an offset to this query to indicates the page of a big data result.
@@ -72,7 +72,7 @@ public interface Query<T> {
      * @param offset new offset
      * @return this instance of Query
      */
-    Query setOffset(int offset);
+    Query<T> setOffset(int offset);
 
     /**
      * Sets how many items per page (offset) this query will fetch
@@ -80,7 +80,7 @@ public interface Query<T> {
      * @param count how many items
      * @return this instance of Query
      */
-    Query setCount(int count);
+    Query<T> setCount(int count);
 
     /**
      * This method will execute a query and returns a list of records
@@ -95,7 +95,7 @@ public interface Query<T> {
      * @param attribute attribute by the query will be ordered.
      * @return this instance of Query
      */
-    Query orderBy(String attribute);
+    Query<T> orderBy(String attribute);
 
     /**
      * This method create a groupBy condition using attribute
@@ -103,7 +103,7 @@ public interface Query<T> {
      * @param attribute attribute by this query will group.
      * @return this instance of Query
      */
-    Query groupBy(String attribute);
+    Query<T> groupBy(String attribute);
 
     /**
      * get the current conditions
@@ -118,7 +118,7 @@ public interface Query<T> {
      * @param attributes attribute by this query will group.
      * @return this instance of Query
      */
-    Query groupBy(String[] attributes);
+    Query<T> groupBy(String[] attributes);
 
     /**
      * Add a join to the list of joins
@@ -126,7 +126,7 @@ public interface Query<T> {
      * @param join join clause
      * @return this instance of Query
      */
-    Query join(JoinClause join);
+    Query<T> join(JoinClause join);
 
     /**
      * Gets the current offset so far.  This attribute will increase according calls of method next()
