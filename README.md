@@ -1,4 +1,4 @@
-# Dynamicloud Java API v1.0.3
+# Dynamicloud Java API v1.0.4
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
 #Requirements
@@ -7,7 +7,7 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
 
 #Main files
 
-- **Release tag 'v1.0.3'**
+- **Release tag 'v1.0.4'**
 - **Dependencies information is in lib folder**
   - commons-logging 1.2.1.1 or later
   - HttpComponents 4.x or later
@@ -234,7 +234,7 @@ for (ModelField item : results.getRecords()) {
 
 #Conditions class
 
-This class provides a set of methods to build conditions and add them in query object
+This class provides a set of methods to build conditions and add them to query object
 ```java
 public static Condition and(Condition left, Condition right);
 public static Condition or(Condition left, Condition right);
