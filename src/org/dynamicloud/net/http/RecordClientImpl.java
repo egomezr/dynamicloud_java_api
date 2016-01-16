@@ -1,6 +1,7 @@
 package org.dynamicloud.net.http;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -9,6 +10,7 @@ import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.dynamicloud.exception.DynamiCloudServiceException;
@@ -98,31 +100,35 @@ public class RecordClientImpl implements RecordClient {
      * @return response from <a href="https://www.dynamicloud.org" target="_blank">www.dynamicloud.org</a> servers.
      */
     public String executeRequest(URI uri, Map<String, String> params, HttpMethod method) throws DynamiCloudServiceException {
-        // Trust own CA and all self-signed certs
-        SSLContext sslcontext;
-        try {
-            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-            InputStream keystoreStream = ClassLoader.getSystemResourceAsStream(KEY_STORE);
-            keystore.load(keystoreStream, SSL_KEY.toCharArray());
-            sslcontext = SSLContexts.custom().loadTrustMaterial(keystore, new TrustSelfSignedStrategy()).build();
-        } catch (IOException e) {
-            throw new DynamiCloudServiceException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            throw new DynamiCloudServiceException(e.getMessage());
-        } catch (KeyManagementException e) {
-            throw new DynamiCloudServiceException(e.getMessage());
-        } catch (CertificateException e) {
-            throw new DynamiCloudServiceException(e.getMessage());
-        } catch (KeyStoreException e) {
-            throw new DynamiCloudServiceException(e.getMessage());
+        HttpClient httpclient;
+        if (uri.getScheme().equalsIgnoreCase("https")) {
+            SSLContext sslcontext;
+            try {
+                KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+                InputStream keystoreStream = ClassLoader.getSystemResourceAsStream(KEY_STORE);
+                keystore.load(keystoreStream, SSL_KEY.toCharArray());
+                sslcontext = SSLContexts.custom().loadTrustMaterial(keystore, new TrustSelfSignedStrategy()).build();
+            } catch (IOException e) {
+                throw new DynamiCloudServiceException(e.getMessage());
+            } catch (NoSuchAlgorithmException e) {
+                throw new DynamiCloudServiceException(e.getMessage());
+            } catch (KeyManagementException e) {
+                throw new DynamiCloudServiceException(e.getMessage());
+            } catch (CertificateException e) {
+                throw new DynamiCloudServiceException(e.getMessage());
+            } catch (KeyStoreException e) {
+                throw new DynamiCloudServiceException(e.getMessage());
+            }
+
+            // Allow TLSv1 protocol only
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"},
+                    null, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+
+            RequestConfig config = RequestConfig.custom().setConnectTimeout(MINUTES_TIMEOUT).setSocketTimeout(MINUTES_TIMEOUT).build();
+            httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).setDefaultRequestConfig(config).build();
+        } else {
+            httpclient = HttpClients.createDefault();
         }
-
-        // Allow TLSv1 protocol only
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext, new String[]{"TLSv1"},
-                null, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-
-        RequestConfig config = RequestConfig.custom().setConnectTimeout(MINUTES_TIMEOUT).setSocketTimeout(MINUTES_TIMEOUT).build();
-        CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).setDefaultRequestConfig(config).build();
 
         Form form = Form.form();
         if (method != HttpMethod.DELETE && method != HttpMethod.GET) {
@@ -136,9 +142,9 @@ public class RecordClientImpl implements RecordClient {
         req.addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
         req.addHeader("Origin", "Dynamicloud://API");
         req.addHeader("Accept-Encoding", "gzip, deflate");
-        req.addHeader("Dynamicloud_API", "Java");
+        req.addHeader("Dynamicloud-API", "Java");
         req.addHeader("User-Agent", DYNAMICLOUD_CLIENT);
-        req.addHeader("API_Version", ConfigurationProperties.getInstance().
+        req.addHeader("API-Version", ConfigurationProperties.getInstance().
                 getProperty(ConfigurationProperties.VERSION));
 
         if (method != HttpMethod.DELETE && method != HttpMethod.GET) {
