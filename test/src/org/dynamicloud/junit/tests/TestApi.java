@@ -434,16 +434,16 @@ public class TestApi extends TestCase {
             /**
              * This is the alias to recordModel, this alias is necessary to use JoinClause
              */
-            query.setAlias("user");
+            query.setAlias("u");
 
             /**
              * It is important the receptor bean to attach the results to this bean.
              */
             recordModel.setBoundClass(JoinResultBean.class);
 
-            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
-            query.join(Conditions.innerJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
-            query.orderBy("user.country").asc();
+            query.setProjection(new String[]{"u.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.innerJoin(auxRecordModel, "aux", "u.id = aux.modelid"));
+            query.orderBy("u.country").asc();
 
             RecordResults<JoinResultBean> results = query.list();
 
@@ -469,16 +469,16 @@ public class TestApi extends TestCase {
             /**
              * This is the alias to recordModel, this alias is necessary to use JoinClause
              */
-            query.setAlias("user");
+            query.setAlias("u");
 
             /**
              * It is important the receptor bean to attach the results to this bean.
              */
             recordModel.setBoundClass(JoinResultBean.class);
 
-            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
-            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
-            query.orderBy("user.country").asc();
+            query.setProjection(new String[]{"u.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "u.id = aux.modelid"));
+            query.orderBy("u.country").asc();
 
             RecordResults<JoinResultBean> results = query.list();
 
@@ -504,16 +504,16 @@ public class TestApi extends TestCase {
             /**
              * This is the alias to recordModel, this alias is necessary to use JoinClause
              */
-            query.setAlias("user");
+            query.setAlias("u");
 
             /**
              * It is important the receptor bean to attach the results to this bean.
              */
             recordModel.setBoundClass(JoinResultBean.class);
 
-            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
-            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
-            query.orderBy("user.country").asc();
+            query.setProjection(new String[]{"u.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "u.id = aux.modelid"));
+            query.orderBy("u.country").asc();
 
             RecordResults<JoinResultBean> results = query.list();
 
@@ -539,18 +539,18 @@ public class TestApi extends TestCase {
             /**
              * This is the alias to recordModel, this alias is necessary to use JoinClause
              */
-            query.setAlias("user");
+            query.setAlias("u");
 
             /**
              * It is important the receptor bean to attach the results to this bean.
              */
             recordModel.setBoundClass(JoinResultBean.class);
 
-            query.setProjection(new String[]{"user.country as country", "aux.birthdat as birthdate"});
-            query.join(Conditions.leftJoin(auxRecordModel, "aux", "user.id = aux.modelid"));
+            query.setProjection(new String[]{"u.country as country", "aux.birthdat as birthdate"});
+            query.join(Conditions.leftJoin(auxRecordModel, "aux", "u.id = aux.modelid"));
             query.add(Conditions.notEquals("aux.birthdat", "2015-09-15"));
 
-            query.orderBy("user.country").asc();
+            query.orderBy("u.country").asc();
 
             RecordResults<JoinResultBean> results = query.list();
 
