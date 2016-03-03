@@ -99,7 +99,7 @@ public class DynamicProviderImpl<T> implements DynamicProvider<T>
  ```java
 public DynamicProviderImpl(RecordCredential credential)
  ```
-This constructor receives an object with the credential to gain access.  The credential object is composed of Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
+This constructor receives an object with the credential to gain access.  The credential object is composed by Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
  
 #Methods
  
@@ -293,13 +293,13 @@ query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 These two calls of add method will produce something like this:
 
-name like 'Eleazar%' **AND** age = 33
+name like 'Eleazar%' AND age = 33
 
-Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object **RecordResults**
+Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object `RecordResults`
 
 #Between condition
 
-With this condition you can build selections like **age between 24 and 30** or **birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'**.
+With this condition you can build selections like `age between 24 and 30` or **birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'**.
 
 **A Between condition is composed by: field's identifier and an interval (left and right)**
 
@@ -501,7 +501,7 @@ try {
 
 Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load the whole set of records, you need to find a way to load a sub-set by demand.
 
-The method to meet this goal is **next**.  Basically, the next method will increase the offset automatically and will execute the request with the previous conditions. By default, offset and count will have 0 and 15 respectively.
+The method to meet this goal is `next`.  Basically, the next method will increase the offset automatically and will execute the request with the previous conditions. By default, offset and count will have 0 and 15 respectively.
 
 **The uses of this method would be as a follow:**
 
@@ -525,7 +525,7 @@ for (ModelField item : results.getRecords()) {
 }
 ```
 
-If you want to set an **offset** or **count**, follow this guideline:
+If you want to set an `offset` or `count`, follow this guideline:
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
@@ -535,7 +535,7 @@ Query<ModelField> query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 //Every call will fetch max 10 records and will start from eleventh record.
-query.setCount(10).setOffset(1);
+query.setCount(10).setOffset(10);
 
 RecordResults results = query.list();
 for (ModelField item : results.getRecords()) {
@@ -574,7 +574,7 @@ for (ModelField item : results.getRecords()) {
 
 #Group by and Projection
 
-To group by a specifics fields, the query object provides the method **groupBy**.  To use this clause, you must set the projection to the query using **setProjection** method.
+To group by a specifics fields, the query object provides the method `groupBy`.  To use this clause, you must set the projection to the query using `setProjection` method.
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
@@ -584,7 +584,7 @@ Query<ModelField> query = provider.createQuery(model);
 query.add(Conditions.like("name", "Eleaz%")).add(Conditions.equals("age", 33));
 
 //Every call will fetch max 10 records and will start from eleventh record.
-query.setCount(10).setOffset(1).orderBy("email").asc(); // Here you can call desc() method
+query.setCount(10).setOffset(10).orderBy("email").asc(); // Here you can call desc() method
 
 // These are the fields in your projection
 query.groupBy("name, email");
@@ -611,14 +611,13 @@ query.setProjection(new String[]{"avg(age) as average"});
 
 ModelField instance = query.list().get(0);
 Double average = instance.getAverage();
-
 ```
 
 #Update using selection
 
 There are situations where you need to update records using a specific selection.
 
-In this example we are going to update the **name** where age > 24
+In this example we are going to update the `name` where age > 24
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
