@@ -90,7 +90,7 @@ public class ModelField implements BoundInstance {
 ```
 
 #DynamicProvider
-**DynamicProvider** provides important methods and can be used as follow:
+`DynamicProvider` provides important methods and can be used as follow:
 ```java
 public class DynamicProviderImpl<T> implements DynamicProvider<T>
 ```
@@ -208,9 +208,9 @@ With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER TH
 #RecordResults
 
 **This class provides three methods:**
-- **getTotalRecords:** The total records in RecordModel
-- **getFastReturnedSize:** The returned size of records that have matched with Query conditions
-- **getRecords:** A list of records, the objects in this list will be **BoundInstances** according to Query's generic type.
+- `getTotalRecords` The total records in RecordModel
+- `getFastReturnedSize` The returned size of records that have matched with Query conditions
+- `getRecords` A list of records, the objects in this list will be `BoundInstances` according to Query's generic type.
 
 **The uses of this class would be as a follow:**
 
@@ -269,7 +269,7 @@ public static JoinClause innerJoin(RecordModel model, String alias, String Condi
 
 ```
 
-To add conditions to a Query object it must call the add method **(query.add(condition))**
+To add conditions to a Query object it must call the add method `(query.add(condition))`
 
 **For example:**
 
@@ -295,11 +295,11 @@ These two calls of add method will produce something like this:
 
 name like 'Eleazar%' AND age = 33
 
-Query class provides a method called **list()**, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object `RecordResults`
+Query class provides a method called `list()`, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object `RecordResults`
 
 #Between condition
 
-With this condition you can build selections like `age between 24 and 30` or **birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'**.
+With this condition you can build selections like `age between 24 and 30` or `birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'`.
 
 **A Between condition is composed by: field's identifier and an interval (left and right)**
 
@@ -553,7 +553,7 @@ for (ModelField item : results.getRecords()) {
 
 #Order by
 
-To fetch records ordered by a specific field, the query object provides the method **orderBy**.  To sort the records in a descending/ascending order you must call asc/desc method after call orderBy method.
+To fetch records ordered by a specific field, the query object provides the method `orderBy`.  To sort the records in a descending/ascending order you must call asc/desc method after call orderBy method.
 
 ```java
 DynamicProvider<ModelField> provider = new DynamicProviderImpl<ModelField>(recordCredential);
