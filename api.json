@@ -1,0 +1,42 @@
+{
+  "name": "Dynamicloud",
+  "description": "",
+  "url": "https://www.dynamicloud.org",
+  "image": "https://www.dynamicloud.org/assets/icon/apple-icon-120x120-9573196a7037c8393ec3518cff518546.png",
+  "specificationVersion": "0.14",
+  "apis": [
+    {
+      "name": "Dynamicloud for Java",
+      "description": "This Java API helps you to use the power of Dynamicloud. This API follows our Rest documentation to execute CRUD operations according to http methods.",
+      "image": "https://www.dynamicloud.org/assets/icon/apple-icon-120x120-9573196a7037c8393ec3518cff518546.png",
+      "baseURL": "https://api.dynamicloud.org",
+      "humanURL": "https://github.com/dynamicloud/dynamicloud_java_api",
+      "tags": [
+        "Cloud",
+        "Computing",
+        "Dynamic",
+        "Java"
+      ],
+      "properties": [],
+      "contact": [
+        {
+          "FN": "Support",
+          "email": "support@dynamicloud.org",
+          "organizationName": "Dynamicloud",
+          "adr": "São Paulo",
+          "X-twitter": "dyncloud",
+          "X-github": "dynamicloud_java_api"
+        }
+      ]
+    }
+  ],
+  "maintainers": [
+    {
+      "FN": ""
+    }
+  ],
+  "tags": [],
+  "include": [],
+  "created": "2016-03-28",
+  "modified": "2016-03-28"
+}
