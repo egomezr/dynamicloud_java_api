@@ -8,16 +8,6 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
 #Main files
 
 - **Release tag 'v1.0.5'**
-- **Dependencies information is in lib folder**
-  - commons-logging 1.2.1.1 or later
-  - HttpComponents 4.x or later
-    - fluent-hc 4.5
-    - httpclient 4.5
-    - httpclient-cache-4.5
-    - httpclient-win-4.5
-    - httpcore-4.4.1
-    - httpmime-4.5
-  - log4j 1.2.17 or later
 - **example/blog-test**
 
 #Javadoc
