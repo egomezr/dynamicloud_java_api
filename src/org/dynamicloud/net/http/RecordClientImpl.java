@@ -8,11 +8,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.methods.*;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
+import org.apache.http.ssl.TrustStrategy;
 import org.dynamicloud.exception.DynamiCloudServiceException;
 import org.dynamicloud.logger.LoggerTool;
 import org.dynamicloud.util.ConfigurationProperties;
@@ -26,10 +24,10 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Map;
 
 /**
@@ -43,8 +41,6 @@ import java.util.Map;
 public class RecordClientImpl implements RecordClient {
     public static final int MINUTES_TIMEOUT = 10 * 1000;
     public static final String DYNAMICLOUD_CLIENT = "Dynamicloud Client";
-    private final static String KEY_STORE = "keystore.jks";
-    private final static String SSL_KEY = "sKr1ves2010";
     private static final LoggerTool log = LoggerTool.getLogger(RecordClient.class);
     private static RecordClient instance;
 
@@ -104,17 +100,16 @@ public class RecordClientImpl implements RecordClient {
         if (uri.getScheme().equalsIgnoreCase("https")) {
             SSLContext sslcontext;
             try {
-                KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-                InputStream keystoreStream = ClassLoader.getSystemResourceAsStream(KEY_STORE);
-                keystore.load(keystoreStream, SSL_KEY.toCharArray());
-                sslcontext = SSLContexts.custom().loadTrustMaterial(keystore, new TrustSelfSignedStrategy()).build();
-            } catch (IOException e) {
-                throw new DynamiCloudServiceException(e.getMessage());
+                sslcontext = SSLContexts.custom()
+                        .loadTrustMaterial(null, new TrustStrategy() {
+                            public boolean isTrusted(final X509Certificate[] chain, final String authType)
+                                    throws CertificateException {
+                                return true;
+                            }
+                        }).build();
             } catch (NoSuchAlgorithmException e) {
                 throw new DynamiCloudServiceException(e.getMessage());
             } catch (KeyManagementException e) {
-                throw new DynamiCloudServiceException(e.getMessage());
-            } catch (CertificateException e) {
                 throw new DynamiCloudServiceException(e.getMessage());
             } catch (KeyStoreException e) {
                 throw new DynamiCloudServiceException(e.getMessage());
