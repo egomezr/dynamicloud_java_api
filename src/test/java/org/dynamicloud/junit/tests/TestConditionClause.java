@@ -217,7 +217,7 @@ public class TestConditionClause extends TestCase {
         assertEquals("{\"name\":\"Eleazar\"}", DynamiCloudUtil.buildFieldsJSON(instance));
 
         instance.setEmail("ego@dynamicloud.org");
-        assertEquals("{\"name\":\"Eleazar\",\"email\":\"ego@dynamicloud.org\"}", DynamiCloudUtil.buildFieldsJSON(instance));
+        assertEquals("{\"email\":\"ego@dynamicloud.org\",\"name\":\"Eleazar\"}", DynamiCloudUtil.buildFieldsJSON(instance));
 
         String[] citieArray = {"sp", "rj", "bs"};
         instance.setCities(citieArray);
