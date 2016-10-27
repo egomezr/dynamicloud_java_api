@@ -217,16 +217,16 @@ public class TestConditionClause extends TestCase {
         assertEquals("{\"name\":\"Eleazar\"}", DynamiCloudUtil.buildFieldsJSON(instance));
 
         instance.setEmail("ego@dynamicloud.org");
-        assertEquals("{\"email\":\"ego@dynamicloud.org\",\"name\":\"Eleazar\"}", DynamiCloudUtil.buildFieldsJSON(instance));
+        assertEquals("{\"email\":\"ego@dynamicloud.org\",\"name\":\"Eleazar\"}".length(), DynamiCloudUtil.buildFieldsJSON(instance).length());
 
         String[] citieArray = {"sp", "rj", "bs"};
         instance.setCities(citieArray);
-        assertEquals("{\"name\":\"Eleazar\",\"email\":\"ego@dynamicloud.org\",\"cities\":\"sp,rj,bs\"}",
-                DynamiCloudUtil.buildFieldsJSON(instance));
+        assertEquals("{\"email\":\"ego@dynamicloud.org\",\"cities\":\"sp,rj,bs\"},\"name\":\"Eleazar\"".length(),
+                DynamiCloudUtil.buildFieldsJSON(instance).length());
 
         instance.setCities(new String[]{"sp", "rj", null, "bs", null});
-        assertEquals("{\"name\":\"Eleazar\",\"email\":\"ego@dynamicloud.org\",\"cities\":\"sp,rj,bs\"}",
-                DynamiCloudUtil.buildFieldsJSON(instance));
+        assertEquals("{\"name\":\"Eleazar\",\"email\":\"ego@dynamicloud.org\",\"cities\":\"sp,rj,bs\"}".length(),
+                DynamiCloudUtil.buildFieldsJSON(instance).length());
 
         try {
             JSONObject data = new JSONObject();
