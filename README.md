@@ -8,7 +8,6 @@ Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle
 #Main files
 
 - **Release tag 'v1.0.5'**
-- **example/blog-test**
 
 #Javadoc
 

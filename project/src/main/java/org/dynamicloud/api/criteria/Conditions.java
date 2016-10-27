@@ -242,8 +242,8 @@ public class Conditions {
     /**
      * Builds a left join clause.
      *
-     * @param model         target model of this join
-     * @param alias         attached alias to this target model
+     * @param model     target model of this join
+     * @param alias     attached alias to this target model
      * @param Condition on condition of this join clause
      * @return a Join Clause as a condition
      */
@@ -254,8 +254,8 @@ public class Conditions {
     /**
      * Builds a left outer join clause.
      *
-     * @param model         target model of this join
-     * @param alias         attached alias to this target model
+     * @param model     target model of this join
+     * @param alias     attached alias to this target model
      * @param Condition on condition of this join clause
      * @return a Join Clause as a condition
      */
@@ -266,8 +266,8 @@ public class Conditions {
     /**
      * Builds a right join clause.
      *
-     * @param model         target model of this join
-     * @param alias         attached alias to this target model
+     * @param model     target model of this join
+     * @param alias     attached alias to this target model
      * @param Condition on condition of this join clause
      * @return a Join Clause as a condition
      */
@@ -278,8 +278,8 @@ public class Conditions {
     /**
      * Builds a right outer join clause.
      *
-     * @param model         target model of this join
-     * @param alias         attached alias to this target model
+     * @param model     target model of this join
+     * @param alias     attached alias to this target model
      * @param Condition on condition of this join clause
      * @return a Join Clause as a condition
      */
@@ -290,8 +290,8 @@ public class Conditions {
     /**
      * Builds a inner join clause.
      *
-     * @param model         target model of this join
-     * @param alias         attached alias to this target model
+     * @param model     target model of this join
+     * @param alias     attached alias to this target model
      * @param Condition on condition of this join clause
      * @return a Join Clause as a condition
      */
@@ -299,6 +299,14 @@ public class Conditions {
         return new JoinClause(JoinType.INNER, model, alias, Condition);
     }
 
+    /**
+     * Builds a between condition
+     *
+     * @param field field in this condition
+     * @param left  left part of the between condition
+     * @param right right part of the between condition
+     * @return a new instance of BetweenCondition
+     */
     public static Condition between(String field, Object left, Object right) {
         return new BetweenCondition(field, left, right);
     }
@@ -306,7 +314,7 @@ public class Conditions {
     /**
      * Creates a new instance of ExistsCondition
      *
-     * @return a new existance of ExistsCondition
+     * @return a new instance of ExistsCondition
      */
     public static ExistsCondition exists() {
         return new ExistsCondition(null, null, false);

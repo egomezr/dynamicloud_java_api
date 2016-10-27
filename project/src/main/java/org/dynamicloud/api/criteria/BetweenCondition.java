@@ -1,5 +1,10 @@
 package org.dynamicloud.api.criteria;
 
+import org.dynamicloud.api.DynamiCloudUtil;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
 /**
  * This class represents a between condition.
  * <p/>
@@ -38,9 +43,9 @@ public class BetweenCondition implements Condition {
     }
 
     private String transformLeftRight() {
-        String result = (left instanceof String || left instanceof Character ? ("\"" + left + "\"") : left.toString());
+        String result = (left instanceof String || left instanceof Character ? ("\"" + left + "\"") : (left instanceof Date ? ("\"" + DynamiCloudUtil.df.format((Date) left) + "\"") : left.toString()));
         result += ",";
 
-        return result + (right instanceof String || left instanceof Character ? ("\"" + right + "\"") : right.toString());
+        return result + (right instanceof String || left instanceof Character ? ("\"" + right + "\"") : (right instanceof Date ? ("\"" + DynamiCloudUtil.df.format((Date) right) + "\"") : right.toString()));
     }
 }

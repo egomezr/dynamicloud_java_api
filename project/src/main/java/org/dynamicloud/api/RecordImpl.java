@@ -11,7 +11,7 @@ import java.util.Map;
  * @since 8/24/15
  **/
 public class RecordImpl implements Record {
-    private Map<String, Object> map = new HashMap<>();
+    private Map<String, Object> map = new HashMap<String, Object>();
 
     /**
      * gets the value paired with attribute
