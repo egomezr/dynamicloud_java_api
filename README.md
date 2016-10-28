@@ -8,7 +8,7 @@ This Java API  helps you to use the power of Dynamicloud.  This API follows our 
 Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java") and Maven commands
 
 #Instalation
-This mvn command will generate the Dynamicloud jar
+This mvn command will generate the Dynamicloud jar file
 
 ```bash
 mvn package
