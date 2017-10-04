@@ -3,11 +3,11 @@
 # Dynamicloud Java ![alt text](https://img.shields.io/badge/api%20version-1.0.5-brightgreen.svg "")
 This Java API  helps you to use the power of Dynamicloud.  This API follows our Rest documentation to execute CRUD operations according to http methods.
 
-#Requirements
+# Requirements
 
 Java JDK 7 or later, you can download it on [Java Oracle site](http://www.oracle.com/technetwork/java/javase/downloads/index.html "Download Java") and Maven commands
 
-#Installation
+# Installation
 This mvn command will generate the Dynamicloud jar file
 
 ```bash
@@ -25,7 +25,7 @@ If you want to add to your Maven project, just add this dependency:
 
 
 
-#Javadoc
+# Javadoc
 
 To read the Java API documentation click [here](http://www.dynamicloud.org/javadocs/index.html "Dynamicloud Java API documentation")
 
@@ -55,7 +55,7 @@ This API provides components to execute operations on [Dynamicloud](http://www.d
 
 These components will allow you to connect on Dynamicloud servers, authenticate and execute operations like *loadRecord*, *updateRecord*, *deleteRecord*, *get record's information according to selection*, *get record's information according to projection*, etc.  The next step is explain every components and how to execute operations.  
 
-#RecordModel
+# RecordModel
 This class represents a model in Dynamicloud.  Every method in this API needs a model to identify a specific set of records and execute operations on them.
 
 To instantiate a model you have to pass an ID from your models in Dynamicloud
@@ -63,13 +63,13 @@ To instantiate a model you have to pass an ID from your models in Dynamicloud
 RecordModel recordModel = new RecordModel(modelId);
 ```
 
-#RecordCredential
+# RecordCredential
 This class encapsulates the API keys to gain access on Dynamicloud servers.
 ```java
 RecordCredential recordCredential = new RecordCredential(CSK, ACI);
 ```
 
-#BoundInstance
+# BoundInstance
 This interface declares the required methods for a bound instance
 ```java
 public interface BoundInstance
@@ -80,7 +80,7 @@ A bound instance must implement BoundInstance interface to be eligible to use in
 public class ModelField implements BoundInstance
 ```
 
-#Annotation @Bind
+# Annotation @Bind
 This is an annotation to Bind local attributes and fields in Dynamicloud.
 Every set method must be annotated as a Bind method:
 ```java
@@ -94,7 +94,7 @@ public class ModelField implements BoundInstance {
 }
 ```
 
-#DynamicProvider
+# DynamicProvider
 `DynamicProvider` provides important methods and can be used as follow:
 ```java
 public class DynamicProviderImpl<T> implements DynamicProvider<T>
@@ -106,7 +106,7 @@ public DynamicProviderImpl(RecordCredential credential)
  ```
 This constructor receives an object with the credential to gain access.  The credential object is composed by Client Secret Key (CSK) and Application Client ID (ACI), these keys were provided at moment of your registration.
  
-#Methods
+# Methods
  
  **Load Record**
 ```java
@@ -187,7 +187,7 @@ Query query = provider.createQuery(model);
 
 ```
 
-#Query class
+# Query class
 
 This class provides a set of methods to add conditions, order by and group by clauses, projections, etc.
 
@@ -210,7 +210,7 @@ public RecordResults<T> next() throws DynamicloudProviderException;
 
 With the Query object we can add conditions like EQUALS, IN, OR, AND, GREATER THAN, LESSER THAN, etc.  The query object is mutable and every call of its methods will return the same instance.
 
-#RecordResults
+# RecordResults
 
 **This class provides three methods:**
 - `getTotalRecords` The total records in RecordModel
@@ -237,7 +237,7 @@ for (ModelField item : results.getRecords()) {
 }
 ```
 
-#Conditions class
+# Conditions class
 
 This class provides a set of methods to build conditions and add them to query object
 ```java
@@ -302,7 +302,7 @@ name like 'Eleazar%' AND age = 33
 
 Query class provides a method called `list()`, this method will execute a request using the *RecordModel* and *Conditions*. The response from Dynamicloud will be encapsulated in the object `RecordResults`
 
-#Between condition
+# Between condition
 
 With this condition you can build selections like `age between 24 and 30` or `birthdate bewteen '2010-01-01 00:00:00' and '2015-11-01 23:59:59'`.
 
@@ -334,7 +334,7 @@ RecordResults results = query.list();
 .
 ```
 
-#Exists condition
+# Exists condition
 
 Exists condition is a way to execute correlated queries and get results if a specific condition is true.  For example, imagine the following SQL query:
 
@@ -441,7 +441,7 @@ try {
 }
 ```
 
-#Join Clause
+# Join Clause
 
 With Join Clause you can execute conditions and involve more than one model.  This is useful in situations when you need to compare data between two or more models and get information in one execution.
 
@@ -502,7 +502,7 @@ try {
 }
 ```
 
-#Next, Offset and Count methods
+# Next, Offset and Count methods
 
 Query class provides a method to walk across the records of a Model.  Imagine a model with a thousand of records, obviously you shouldn't load the whole set of records, you need to find a way to load a sub-set by demand.
 
@@ -556,7 +556,7 @@ for (ModelField item : results.getRecords()) {
 }
 ```
 
-#Order by
+# Order by
 
 To fetch records ordered by a specific field, the query object provides the method `orderBy`.  To sort the records in a descending/ascending order you must call asc/desc method after call orderBy method.
 
@@ -577,7 +577,7 @@ for (ModelField item : results.getRecords()) {
 
 ```
 
-#Group by and Projection
+# Group by and Projection
 
 To group by a specifics fields, the query object provides the method `groupBy`.  To use this clause, you must set the projection to the query using `setProjection` method.
 
@@ -601,7 +601,7 @@ for (ModelField item : results.getRecords()) {
 }
 
 ```
-#Functions as a Projection
+# Functions as a Projection
 
 Query object provides the setProjection method to specify the fields you want to fetch in a query.  In this method you can set the function you want to call. Every function must has an alias to bind it with a setMethod in BoundInstance object.
 
@@ -618,7 +618,7 @@ ModelField instance = query.list().get(0);
 Double average = instance.getAverage();
 ```
 
-#Update using selection
+# Update using selection
 
 There are situations where you need to update records using a specific selection.
 
@@ -642,7 +642,7 @@ query.add(Conditions.greaterThan("age", 24));
 provider.update(query);
 ```
 
-#Delete using selection
+# Delete using selection
 
 There are situations where you need to delete records using a specific selection.
 
